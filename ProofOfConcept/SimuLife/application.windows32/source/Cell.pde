@@ -16,9 +16,9 @@ class Cell{
     beginShape();
     noStroke();
     fill(this.biome.getColor());
-    for(float a = PI / 6; a < TWO_PI; a += angle){
-      float hx = cos(a) * size;
-      float hy = sin(a) * size;
+    for(float a = 0; a < TWO_PI; a += angle){
+      float hx = cos(a) * (size + 1);
+      float hy = sin(a) * (size + 1);
       vertex(hx, hy);
     }
     endShape(CLOSE);

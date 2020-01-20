@@ -23,7 +23,8 @@ World monde;
 Cell current;
 Cell next;
 
-int scl = 7;
+int scl = 10;
+int nbCell;
 
 //déplacement
 boolean depg = false;
@@ -37,19 +38,21 @@ public void setup(){
   
   //fullScreen();
   
-  monde = new World("Monde 1", 46854);
-  //monde = new World("Monde 1", round(random(999999999)));
+  nbCell = 10;
+  
+  //monde = new World("Monde 1", 46854);
+  monde = new World("Monde 1", round(random(999999999)));
   
 }
 
 public void draw(){
   
-  background(0);
+  background(255);
   
   origX += ((depd? 1 : 0) - (depg ? 1 : 0)) * 2;
   origY += ((depb? 1 : 0) - (deph ? 1 : 0)) * 2;
   
-  monde.draw(origX, origY, 25, scl);
+  monde.draw(origX, origY, nbCell, (height / 2)/(2 * nbCell + 1), 2);//Hexagone
 }
 
 public void mousePressed(){
@@ -62,11 +65,11 @@ public void mousePressed(){
 
 public void keyPressed(){
   switch(key){
-    case '+':
-      scl += 10;
-      break;
     case '-':
-      scl = scl > 10 ? scl - 10 : 10;
+      nbCell = nbCell < 50 ? nbCell += 10 : 50;
+      break;
+    case '+':
+      nbCell = nbCell > 10 ? nbCell - 10 : 10;
       break;
     case 'z':
       deph = true;
@@ -108,16 +111,15 @@ class Biome{
   SimuLife.biomes biome; 
   
   public Biome(float niv, float hum){
-    //System.out.println(niv + " " + hum);
     biome = biomes.OCEAN;
-    if (niv > 0.35f){
+    if (niv > - 0.20f){
       biome = biomes.PLAGE;
     }
     //if (niv < 0.375){
     //  return biomes.PLAGE;
     //}
   
-    if (niv > 0.45f) {
+    if (niv > -0.15f) {
       biome = biomes.JUNGLE;
       if (hum < 0.83f){
         biome = biomes.FORET;
@@ -258,9 +260,9 @@ class Cell{
     beginShape();
     noStroke();
     fill(this.biome.getColor());
-    for(float a = PI / 6; a < TWO_PI; a += angle){
-      float hx = cos(a) * size;
-      float hy = sin(a) * size;
+    for(float a = 0; a < TWO_PI; a += angle){
+      float hx = cos(a) * (size + 1);
+      float hy = sin(a) * (size + 1);
       vertex(hx, hy);
     }
     endShape(CLOSE);
@@ -322,34 +324,68 @@ class World{
   long seed;
   int id;
   
+  OpenSimplexNoise oNoise;
+  
   public World(String n, long s){
     name = n;
     seed = s;
-    noiseSeed(seed);
+    oNoise = new OpenSimplexNoise(seed);
     world = new HashMap<Key, Cell>();
   }
   
   public void genCell(int x, int y){
     Key k = new Key(x, y);
-    float niv = noise((x + 500) / 20.0f, (y + 500) / 20.0f);
-    float hum = noise(0.2f * (x + 150) / 20.0f, 0.2f * (y + 150) / 20.0f);
+    float niv = (float) oNoise.eval((x + 00) / 20.0f, (y + 00) / 20.0f);
+    float hum = (float) oNoise.eval(0.2f * (x + 00) / 20.0f, 0.2f * (y + 00) / 20.0f);
     Cell c = new Cell(niv, hum);
     world.put(k, c);
   }
   
-  public void draw(int x, int y, int nb, int size){
-    float cx = x * sqrt(3) * size + y % 2 * sqrt(3) * size / 2;
-    float cy = y * size * 3 / 2;
-    for(int i = x - nb; i <= x + nb; i++){
-      for(int j = y - nb; j <= y + nb; j++){
-        Key k = new Key(i, j);
-        if(!world.containsKey(k)){
-          genCell(i, j);
+  public void draw(int x, int y, int nb, int size, int forme){
+    float cx = x * size * 3 / 2;
+    float cy = y * sqrt(3) * size + x % 2 * sqrt(3) * size / 2;
+    if(forme == 1){
+      for(int i = x - nb; i <= x + nb; i++){
+        for(int j = y - nb; j <= y + nb; j++){
+          Key k = new Key(i, j);
+          if(!world.containsKey(k)){
+            genCell(i, j);
+          }
+          Cell c = world.get(k);
+          translate(width / 2 - cx, height / 2 - cy);
+          c.draw(i * 3 * size / 2, j * sqrt(3) * size + abs(i) % 2 * sqrt(3) * size / 2, size);
+          translate(-width / 2 + cx, - height / 2 + cy);
         }
-        Cell c = world.get(k);
-        translate(width / 2 - cx, height / 2 - cy);
-        c.draw(i * sqrt(3) * size + j % 2 * sqrt(3) * size / 2, j * 3 * size / 2, size);
-        translate(-width / 2 + cx, - height / 2 + cy);
+      }
+    }else{
+      for(int py = -nb; py <= nb; py++){
+        for(int px = -nb; px <= nb; px++){
+          // rectangle centrale
+          if(abs(py) < nb / 2
+          // Triangle inférieur
+          || (py > 0 && (
+          // Pour les colonnes impaires, ne prends pas en compte la dernière ligne courante
+                (px % 2 != 0 && py < nb - abs(px) / 2)
+          // Pour les colonnes paires, prends en compte la dernière ligne courante
+             || (px % 2 == 0 && py <= nb - abs(px) / 2)))
+          // Triangle supérieur
+          || (py < 0 && (
+          // Pour les colonnes impaires, ne prends pas en compte la dernière ligne suivante
+                (px % 2 != 0 && -py < nb - abs(px) / 2 + 1)
+          // Pour les colonnes paires, prends en compte la dernière ligne courante
+             || (px % 2 == 0 && -py <= nb - abs(px) / 2)))
+          ){
+            Key k = new Key(x + px, y + py);
+            if(!world.containsKey(k)){
+                genCell(x + px, y + py);
+              }
+            Cell c = world.get(k);
+            translate(width / 2 - cx, height / 2 - cy);
+            c.draw((x + px) * 3 * size / 2, (y + py) * sqrt(3) * size + abs(x + px) % 2 * sqrt(3) * size / 2, size);
+            fill(0);
+            translate(-width / 2 + cx, - height / 2 + cy);
+          }
+        }
       }
     }
   }

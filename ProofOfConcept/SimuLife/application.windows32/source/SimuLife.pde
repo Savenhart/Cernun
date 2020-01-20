@@ -3,7 +3,8 @@ World monde;
 Cell current;
 Cell next;
 
-int scl = 7;
+int scl = 10;
+int nbCell;
 
 //déplacement
 boolean depg = false;
@@ -17,19 +18,21 @@ public void setup(){
   size(600, 600);
   //fullScreen();
   
-  monde = new World("Monde 1", 46854);
-  //monde = new World("Monde 1", round(random(999999999)));
+  nbCell = 10;
+  
+  //monde = new World("Monde 1", 46854);
+  monde = new World("Monde 1", round(random(999999999)));
   
 }
 
 public void draw(){
   
-  background(0);
+  background(255);
   
   origX += ((depd? 1 : 0) - (depg ? 1 : 0)) * 2;
   origY += ((depb? 1 : 0) - (deph ? 1 : 0)) * 2;
   
-  monde.draw(origX, origY, 25, scl);
+  monde.draw(origX, origY, nbCell, (height / 2)/(2 * nbCell + 1), 2);//Hexagone
 }
 
 public void mousePressed(){
@@ -42,11 +45,11 @@ public void mousePressed(){
 
 public void keyPressed(){
   switch(key){
-    case '+':
-      scl += 10;
-      break;
     case '-':
-      scl = scl > 10 ? scl - 10 : 10;
+      nbCell = nbCell < 50 ? nbCell += 10 : 50;
+      break;
+    case '+':
+      nbCell = nbCell > 10 ? nbCell - 10 : 10;
       break;
     case 'z':
       deph = true;

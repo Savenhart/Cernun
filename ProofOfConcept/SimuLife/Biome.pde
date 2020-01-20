@@ -3,16 +3,15 @@ class Biome{
   SimuLife.biomes biome; 
   
   public Biome(float niv, float hum){
-    //System.out.println(niv + " " + hum);
     biome = biomes.OCEAN;
-    if (niv > 0.35){
+    if (niv > - 0.20){
       biome = biomes.PLAGE;
     }
     //if (niv < 0.375){
     //  return biomes.PLAGE;
     //}
   
-    if (niv > 0.45) {
+    if (niv > -0.15) {
       biome = biomes.JUNGLE;
       if (hum < 0.83){
         biome = biomes.FORET;
