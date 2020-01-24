@@ -9,10 +9,12 @@ public class Creature {
     private int mass;
     private int diet;
     private int ratioSeaMountain;
+    private int posX;
+    private int posY;
 
     public Creature() {}
 
-    public Creature(String name, int speed, int energy, int energyMax, int perception, int mass, int diet, int ratioSeaMountain) {
+    public Creature(String name, int speed, int energy, int energyMax, int perception, int mass, int diet, int ratioSeaMountain, int posX, int posY) {
         this.name = name;
         this.speed = speed;
         this.energy = energy;
@@ -21,6 +23,8 @@ public class Creature {
         this.mass = mass;
         this.diet = diet;
         this.ratioSeaMountain = ratioSeaMountain;
+        this.posX = posX;
+        this.posY = posY;
     }
 
     public void eat(){
@@ -97,5 +101,21 @@ public class Creature {
 
     public void setRatioSeaMountain(int ratioSeaMountain) {
         this.ratioSeaMountain = ratioSeaMountain;
+    }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
+    public void setPosY(int posY) {
+        this.posY = posY;
     }
 }
