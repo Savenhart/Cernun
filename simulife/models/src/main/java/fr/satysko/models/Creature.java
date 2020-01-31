@@ -1,6 +1,8 @@
 package fr.satysko.models;
 
 public class Creature {
+    private int posX;
+    private int posY;
     private String name;
     private int speed;
     private int energy;
@@ -9,12 +11,12 @@ public class Creature {
     private int mass;
     private int diet;
     private int ratioSeaMountain;
-    private int posX;
-    private int posY;
 
     public Creature() {}
 
-    public Creature(String name, int speed, int energy, int energyMax, int perception, int mass, int diet, int ratioSeaMountain, int posX, int posY) {
+    public Creature(int posX, int posY, String name, int speed, int energy, int energyMax, int perception, int mass, int diet, int ratioSeaMountain) {
+        this.posX = posX;
+        this.posY = posY;
         this.name = name;
         this.speed = speed;
         this.energy = energy;
@@ -23,8 +25,6 @@ public class Creature {
         this.mass = mass;
         this.diet = diet;
         this.ratioSeaMountain = ratioSeaMountain;
-        this.posX = posX;
-        this.posY = posY;
     }
 
     public void eat(){
@@ -37,6 +37,22 @@ public class Creature {
 
     public void see(){
         
+    }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
+    public void setPosY(int posY) {
+        this.posY = posY;
     }
 
     public String getName() {
@@ -101,21 +117,5 @@ public class Creature {
 
     public void setRatioSeaMountain(int ratioSeaMountain) {
         this.ratioSeaMountain = ratioSeaMountain;
-    }
-
-    public int getPosX() {
-        return posX;
-    }
-
-    public void setPosX(int posX) {
-        this.posX = posX;
-    }
-
-    public int getPosY() {
-        return posY;
-    }
-
-    public void setPosY(int posY) {
-        this.posY = posY;
     }
 }
