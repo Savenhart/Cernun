@@ -1,4 +1,4 @@
-package fr.satysko.simulife.models;
+package fr.satysko.models;
 
 /**
  * Hello world!
