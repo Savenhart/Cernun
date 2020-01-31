@@ -8,13 +8,21 @@ CREATE TABLE IF NOT EXISTS world
     seed INT NOT NULL
 )ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+CREATE TABLE IF NOT EXISTS picture
+(
+    ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(20) NOT NULL,
+    ipath VARCHAR(20) NOT NULL UNIQUE
+)ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
 CREATE TABLE IF NOT EXISTS user
 (
     ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(10) NOT NULL UNIQUE,
     pseudo VARCHAR(10) NOT NULL UNIQUE,
-    avatar BLOB NOT NULL,
-    password VARCHAR(64) NOT NULL
+    password VARCHAR(64) NOT NULL,
+    pictureID INT NOT NULL,
+    FOREIGN KEY (pictureID) REFERENCES picture(ID)
 )ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS droit
@@ -40,7 +48,9 @@ CREATE TABLE IF NOT EXISTS creature
     ratioSeaMountain INT NOT NULL,
     posX INT NOT NULL,
     posY INT NOT NULL,
-    CONSTRAINT pkcreature PRIMARY KEY (ID, discriminant)
+    pictureID INT NOT NULL,
+    CONSTRAINT pkcreature PRIMARY KEY (ID, discriminant),
+    FOREIGN KEY (pictureID) REFERENCES picture(ID)
 )ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS appartenance
@@ -59,8 +69,10 @@ CREATE TABLE IF NOT EXISTS cell
     posX INT NOT NULL,
     posY INT NOT NULL,
     biome VARCHAR(20) NOT NULL,
+    pictureID INT NOT NULL,
     CONSTRAINT pkcell PRIMARY KEY (worldID, posX, posY),
-    FOREIGN KEY (worldID) REFERENCES world(ID)
+    FOREIGN KEY (worldID) REFERENCES world(ID),
+    FOREIGN KEY (pictureID) REFERENCES picture(ID)
 )ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS food
@@ -70,7 +82,8 @@ CREATE TABLE IF NOT EXISTS food
     posY INT NOT NULL,
     energy INT NOT NULL,
     ismeat INT(1) NOT NULL,
-    picture BLOB NOT NULL,
+    pictureID INT NOT NULL,
     CONSTRAINT pkfood PRIMARY KEY (worldID, posX, posY),
-    FOREIGN KEY (worldID) REFERENCES world(ID)
+    FOREIGN KEY (worldID) REFERENCES world(ID),
+    FOREIGN KEY (pictureID) REFERENCES picture(ID)
 )ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
