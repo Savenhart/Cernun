@@ -1,5 +1,6 @@
 package fr.satysko.models;
 
+import java.util.List;
 import java.util.Objects;
 
 public class User {
@@ -7,6 +8,8 @@ public class User {
     private String name;
     private String pseudo;
     private String avatar;
+
+    List<Creature> groupe;
 
     public User() {}
 

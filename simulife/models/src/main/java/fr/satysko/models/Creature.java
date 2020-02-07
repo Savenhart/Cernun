@@ -1,8 +1,8 @@
 package fr.satysko.models;
 
 public class Creature {
-    private int posX;
-    private int posY;
+    private int id;
+    private int discriminant;
     private String name;
     private int speed;
     private int energy;
@@ -11,6 +11,9 @@ public class Creature {
     private int mass;
     private int diet;
     private int ratioSeaMountain;
+    private int posX;
+    private int posY;
+    private String picture;
 
     public Creature() {}
 
