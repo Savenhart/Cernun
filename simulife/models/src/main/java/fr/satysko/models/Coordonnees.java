@@ -2,6 +2,7 @@ package fr.satysko.models;
 
 import javax.persistence.*;
 import javax.vecmath.Vector2d;
+import java.util.Objects;
 
 @Embeddable
 public class Coordonnees {
@@ -45,5 +46,18 @@ public class Coordonnees {
     private void preSave(){
         posX = pos.x;
         posY = pos.y;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coordonnees that = (Coordonnees) o;
+        return pos.equals(that.pos);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pos);
     }
 }

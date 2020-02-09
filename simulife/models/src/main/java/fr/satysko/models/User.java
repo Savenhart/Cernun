@@ -1,32 +1,19 @@
 package fr.satysko.models;
 
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
 public class User {
-    private int id;
+
     private String name;
     private String pseudo;
-    private String avatar;
 
-    List<Creature> groupe;
-
-    public User() {}
-
-    public User(int id, String name, String pseudo, String avatar) {
-        this.id = id;
-        this.name = name;
-        this.pseudo = pseudo;
-        this.avatar = avatar;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    @OneToOne
+    private Picture avatar;
 
     public String getName() {
         return name;
@@ -44,24 +31,11 @@ public class User {
         this.pseudo = pseudo;
     }
 
-    public String getAvatar() {
+    public Picture getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
+    public void setAvatar(Picture avatar) {
         this.avatar = avatar;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }
