@@ -3,7 +3,7 @@ package fr.satysko.models;
 import javax.persistence.Entity;
 
 @Entity
-public class Picture extends Entite{
+public class Picture extends Entite {
 
     private String name;
     private String ipath;

@@ -1,19 +1,21 @@
 package fr.satysko.models;
 
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import java.util.List;
-import java.util.Objects;
+import java.util.Set;
 
 @Entity
-public class User {
+public class User extends Entite {
 
     private String name;
     private String pseudo;
 
     @OneToOne
     private Picture avatar;
+    @OneToMany(mappedBy = "world")
+    private Set<Appartenance> appartenances;
 
     public String getName() {
         return name;

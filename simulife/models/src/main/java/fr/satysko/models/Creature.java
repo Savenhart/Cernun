@@ -1,8 +1,11 @@
 package fr.satysko.models;
 
-public class Creature {
-    private int id;
-    private int discriminant;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+@Entity
+public class Creature extends Entite {
     private String name;
     private int speed;
     private int energy;
@@ -13,7 +16,10 @@ public class Creature {
     private int ratioSeaMountain;
     private int posX;
     private int posY;
-    private String picture;
+    @OneToOne
+    private Picture picture;
+    @ManyToOne
+    private Appartenance appartenance;
 
     public Creature() {}
 
@@ -28,18 +34,6 @@ public class Creature {
         this.mass = mass;
         this.diet = diet;
         this.ratioSeaMountain = ratioSeaMountain;
-    }
-
-    public void eat(){
-
-    }
-
-    public void move(){
-
-    }
-
-    public void see(){
-        
     }
 
     public int getPosX() {

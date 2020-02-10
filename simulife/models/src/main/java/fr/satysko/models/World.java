@@ -11,20 +11,22 @@ import javax.persistence.*;
 import javax.vecmath.Vector2d;
 
 @Entity
-class World extends Entite{
+class World extends Entite {
 
-    String name;
-    long seed;
-
-    @Transient
-    Map<Coordonnees, Cell> cells;
-    @OneToMany
-    Set<Cell> cellsSet;
+    private String name;
+    private long seed;
 
     @Transient
-    Map<Coordonnees, Food> foods;
-    @OneToMany
-    Set<Food> foodsSet;
+    private Map<Coordonnees, Cell> cells;
+    @OneToMany(mappedBy = "world")
+    private Set<Cell> cellsSet;
+
+    @Transient
+    private Map<Coordonnees, Food> foods;
+    @OneToMany(mappedBy = "world")
+    private Set<Food> foodsSet;
+    @OneToMany(mappedBy = "world")
+    private Set<Appartenance> appartenances;
 
     @Transient
     OpenSimplexNoise oNoise;
@@ -63,10 +65,21 @@ class World extends Entite{
         this.seed = seed;
     }
 
+    public Set<Appartenance> getAppartenances() {
+        return appartenances;
+    }
+
+    public void setAppartenances(Set<Appartenance> appartenances) {
+        this.appartenances = appartenances;
+    }
+
     @PostLoad
     private void postLoad(){
         for (Cell c : cellsSet) {
             cells.put(c.getPos(), c);
+        }
+        for (Food f : foodsSet) {
+            foods.put(f.getPos(), f);
         }
     }
 
@@ -74,5 +87,6 @@ class World extends Entite{
     @PreUpdate
     private void preSave(){
         cellsSet = new HashSet<>(cells.values());
+        foodsSet = new HashSet<>(foods.values());
     }
 }

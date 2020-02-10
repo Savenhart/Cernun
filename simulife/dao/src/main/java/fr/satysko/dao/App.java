@@ -1,15 +1,13 @@
 package fr.satysko.dao;
 
-import java.sql.Connection;
+import fr.satysko.models.User;
 
-/**
- * Hello world!
- *
- */
 public class App 
 {
-    public static Connection conn;
 
     public static void main( String[] args ) {
+        GenericDAO<User> userDAO = new GenericDAO<>(Constantes.PERSISTENCE_UNIT_NAME, User.class);
+
+        userDAO.close();
     }
 }

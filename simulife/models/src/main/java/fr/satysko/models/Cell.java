@@ -6,7 +6,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Cell {
+public class Cell extends Entite {
 	@ManyToOne
 	private World world;
 	@Embedded

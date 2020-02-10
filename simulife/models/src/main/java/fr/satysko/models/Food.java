@@ -1,31 +1,25 @@
 package fr.satysko.models;
 
-import javax.persistence.PostLoad;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.vecmath.Vector2d;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
-public class Food {
-    private int worldID;
+@Entity
+public class Food extends Entite {
+    @ManyToOne
+    private World world;
     private int energy;
     private boolean isMeat;
     private String picture;
+    @Embedded
+    private Coordonnees pos;
 
-    public Food() {}
-
-    public Food(int worldID, int energy, boolean isMeat) {
-        this.worldID = worldID;
-        this.energy = energy;
-        this.isMeat = isMeat;
-        this.picture = "";
+    public World getWorld() {
+        return world;
     }
 
-    public int getWorldID() {
-        return worldID;
-    }
-
-    public void setWorldID(int worldID) {
-        this.worldID = worldID;
+    public void setWorld(World world) {
+        this.world = world;
     }
 
     public int getEnergy() {
@@ -52,4 +46,11 @@ public class Food {
         this.picture = picture;
     }
 
+    public Coordonnees getPos() {
+        return pos;
+    }
+
+    public void setPos(Coordonnees pos) {
+        this.pos = pos;
+    }
 }
