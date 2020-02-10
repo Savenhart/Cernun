@@ -1,29 +1,21 @@
 package fr.satysko.models;
 
-import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import java.util.Set;
 
-public class User {
-    private int id;
+@Entity
+public class User extends Entite {
+
     private String name;
     private String pseudo;
-    private String avatar;
 
-    public User() {}
-
-    public User(int id, String name, String pseudo, String avatar) {
-        this.id = id;
-        this.name = name;
-        this.pseudo = pseudo;
-        this.avatar = avatar;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    @OneToOne
+    private Picture avatar;
+    @OneToMany(mappedBy = "world")
+    private Set<Appartenance> appartenances;
 
     public String getName() {
         return name;
@@ -41,24 +33,11 @@ public class User {
         this.pseudo = pseudo;
     }
 
-    public String getAvatar() {
+    public Picture getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
+    public void setAvatar(Picture avatar) {
         this.avatar = avatar;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }

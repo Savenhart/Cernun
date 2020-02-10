@@ -1,25 +1,32 @@
 package fr.satysko.models;
 
-import fr.satysko.utils.EBiomes;
+import fr.satysko.utils.EBiome;
 
+import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Transient;
+
+@Embeddable
 public class Biome {
-	
-	EBiomes biome;
+
+	@Enumerated(EnumType.STRING)
+	EBiome biome;
+	@Transient
+	String sBiome;
+
+	public Biome(){}
+
 	public Biome (float niv, float hum) {
-		biome = EBiomes.OCEAN;
+		biome = EBiome.OCEAN;
+		sBiome = "Ocean";
 		if (niv >0) {
-			biome = EBiomes.PLAINE; 
+			biome = EBiome.PLAINE;
+			sBiome = "Plaine";
 		}
 	}
 		
 	public String getBiome() {
-		switch(biome) {
-			case OCEAN:
-				return "Ocean";
-			case PLAINE:
-				return "Plaine";
-		}
-		return "";
-	}			
-
+		return sBiome;
+	}
 }
