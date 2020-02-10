@@ -3,6 +3,7 @@ package fr.satysko.models;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Food extends Entite {
@@ -10,7 +11,8 @@ public class Food extends Entite {
     private World world;
     private int energy;
     private boolean isMeat;
-    private String picture;
+    @OneToOne
+    private Picture picture;
     @Embedded
     private Coordonnees pos;
 
@@ -38,11 +40,11 @@ public class Food extends Entite {
         isMeat = meat;
     }
 
-    public String getPicture() {
+    public Picture getPicture() {
         return picture;
     }
 
-    public void setPicture(String picture) {
+    public void setPicture(Picture picture) {
         this.picture = picture;
     }
 
