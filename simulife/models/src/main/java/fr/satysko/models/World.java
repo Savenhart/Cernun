@@ -1,33 +1,31 @@
 package fr.satysko.models;
 
+import fr.satysko.utils.OpenSimplexNoise;
+
+import javax.persistence.*;
+import javax.vecmath.Vector2d;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import fr.satysko.utils.OpenSimplexNoise;
-
-import javax.persistence.*;
-import javax.vecmath.Vector2d;
-
 @Entity
-class World extends Entite {
+public class World extends Entite {
 
     private String name;
     private long seed;
 
-    @Transient
-    private Map<Coordonnees, Cell> cells;
     @OneToMany(mappedBy = "world")
     private Set<Cell> cellsSet;
-
-    @Transient
-    private Map<Coordonnees, Food> foods;
     @OneToMany(mappedBy = "world")
     private Set<Food> foodsSet;
     @OneToMany(mappedBy = "world")
     private Set<Appartenance> appartenances;
 
+    @Transient
+    private Map<Coordonnees, Cell> cells;
+    @Transient
+    private Map<Coordonnees, Food> foods;
     @Transient
     OpenSimplexNoise oNoise;
 
