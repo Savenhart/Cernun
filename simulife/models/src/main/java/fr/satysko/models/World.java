@@ -16,16 +16,16 @@ public class World extends Entite {
     private long seed;
 
     @OneToMany(mappedBy = "world")
-    private Set<Cell> cellsSet;
+    private Set<Cell> cellsSet = new HashSet<>();
     @OneToMany(mappedBy = "world")
-    private Set<Food> foodsSet;
+    private Set<Food> foodsSet = new HashSet<>();
     @OneToMany(mappedBy = "world")
     private Set<Appartenance> appartenances;
 
     @Transient
-    private Map<Coordonnees, Cell> cells;
+    private Map<Location, Cell> cells = new HashMap<>();
     @Transient
-    private Map<Coordonnees, Food> foods;
+    private Map<Location, Food> foods = new HashMap<>();
     @Transient
     OpenSimplexNoise oNoise;
 
@@ -35,11 +35,11 @@ public class World extends Entite {
         name = n;
         seed = s;
         oNoise = new OpenSimplexNoise(seed);
-        cells = new HashMap<Coordonnees, Cell>();
+        cells = new HashMap<Location, Cell>();
     }
 
     public void genCell(int x, int y) {
-        Coordonnees k = new Coordonnees();
+        Location k = new Location();
         k.setPos(new Vector2d(x, y));
         float niv = (float) oNoise.eval(x / 20.0, y / 20.0);
         float hum = (float) oNoise.eval(0.2 * x / 20.0, 0.2 * y / 20.0);
@@ -69,6 +69,22 @@ public class World extends Entite {
 
     public void setAppartenances(Set<Appartenance> appartenances) {
         this.appartenances = appartenances;
+    }
+
+    public Map<Location, Cell> getCells() {
+        return cells;
+    }
+
+    public void setCells(Map<Location, Cell> cells) {
+        this.cells = cells;
+    }
+
+    public Map<Location, Food> getFoods() {
+        return foods;
+    }
+
+    public void setFoods(Map<Location, Food> foods) {
+        this.foods = foods;
     }
 
     @PostLoad

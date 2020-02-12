@@ -10,7 +10,7 @@ public class Cell extends Entite {
 	@ManyToOne
 	private World world;
 	@Embedded
-	private Coordonnees pos;
+	private Location pos;
 	@Embedded
 	Biome biome;
 	@OneToOne
@@ -28,11 +28,11 @@ public class Cell extends Entite {
 		this.world = world;
 	}
 
-	public Coordonnees getPos() {
+	public Location getPos() {
 		return pos;
 	}
 
-	public void setPos(Coordonnees pos) {
+	public void setPos(Location pos) {
 		this.pos = pos;
 	}
 

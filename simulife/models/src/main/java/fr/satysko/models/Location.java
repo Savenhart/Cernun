@@ -5,7 +5,7 @@ import javax.vecmath.Vector2d;
 import java.util.Objects;
 
 @Embeddable
-public class Coordonnees {
+public class Location {
 
     private double posX;
     private double posY;
@@ -52,7 +52,7 @@ public class Coordonnees {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Coordonnees that = (Coordonnees) o;
+        Location that = (Location) o;
         return pos.equals(that.pos);
     }
 
