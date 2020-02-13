@@ -14,7 +14,7 @@ public class Food extends Entite {
     @OneToOne
     private Picture picture;
     @Embedded
-    private Location pos;
+    private Location location;
 
     public World getWorld() {
         return world;
@@ -48,11 +48,11 @@ public class Food extends Entite {
         this.picture = picture;
     }
 
-    public Location getPos() {
-        return pos;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setPos(Location pos) {
-        this.pos = pos;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

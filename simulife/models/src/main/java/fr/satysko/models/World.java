@@ -15,11 +15,11 @@ public class World extends Entite {
     private String name;
     private long seed;
 
-    @OneToMany(mappedBy = "world")
+    @OneToMany(mappedBy = "world", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     private Set<Cell> cellsSet = new HashSet<>();
-    @OneToMany(mappedBy = "world")
+    @OneToMany(mappedBy = "world", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     private Set<Food> foodsSet = new HashSet<>();
-    @OneToMany(mappedBy = "world")
+    @OneToMany(mappedBy = "world", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     private Set<Appartenance> appartenances;
 
     @Transient
@@ -35,7 +35,6 @@ public class World extends Entite {
         name = n;
         seed = s;
         oNoise = new OpenSimplexNoise(seed);
-        cells = new HashMap<Location, Cell>();
     }
 
     public void genCell(int x, int y) {
@@ -44,6 +43,8 @@ public class World extends Entite {
         float niv = (float) oNoise.eval(x / 20.0, y / 20.0);
         float hum = (float) oNoise.eval(0.2 * x / 20.0, 0.2 * y / 20.0);
         Cell c = new Cell(niv, hum);
+        c.setWorld(this);
+        c.setLocation(k);
         cells.put(k, c);
     }
 
@@ -90,10 +91,10 @@ public class World extends Entite {
     @PostLoad
     private void postLoad(){
         for (Cell c : cellsSet) {
-            cells.put(c.getPos(), c);
+            cells.put(c.getLocation(), c);
         }
         for (Food f : foodsSet) {
-            foods.put(f.getPos(), f);
+            foods.put(f.getLocation(), f);
         }
     }
 

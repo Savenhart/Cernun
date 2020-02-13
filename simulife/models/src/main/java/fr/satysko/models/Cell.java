@@ -10,12 +10,14 @@ public class Cell extends Entite {
 	@ManyToOne
 	private World world;
 	@Embedded
-	private Location pos;
+	private Location location;
 	@Embedded
 	Biome biome;
 	@OneToOne
 	private Picture picture;
-	
+
+	public Cell() {}
+
 	public Cell(float niv, float hum) {
 		biome = new Biome(niv, hum);
 	}
@@ -28,12 +30,12 @@ public class Cell extends Entite {
 		this.world = world;
 	}
 
-	public Location getPos() {
-		return pos;
+	public Location getLocation() {
+		return location;
 	}
 
-	public void setPos(Location pos) {
-		this.pos = pos;
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
 	public String getBiome() {

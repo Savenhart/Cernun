@@ -13,7 +13,7 @@ import static org.junit.Assert.assertNotEquals;
 import java.util.Arrays;
 import java.util.HashSet;
 
-public class DaoTest {
+public class WorldDaoTest {
 
     GenericDAO<World> worldDAO;
     World w;
@@ -25,13 +25,13 @@ public class DaoTest {
     }
 
     @Test
-    public void genCellTest(){
+    public void cascadeCellTest(){
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 w.genCell(i, j);
             }
         }
-        assertEquals(25, w.getCells().size());
+        worldDAO.saveOrUpdate(w);
     }
 
     @Before
@@ -49,6 +49,8 @@ public class DaoTest {
     public static void preClass(){
         GenericDAO<World> preTestDAO = new GenericDAO<>(Constantes.PERSISTENCE_UNIT_NAME_TU, World.class);
 
+        int tAvant = preTestDAO.findAll().size();
+
         preTestDAO.saveAll(new HashSet<World>(Arrays.asList(
                 new World("Test1", 1),
                 new World("Test2", 2),
@@ -58,7 +60,7 @@ public class DaoTest {
                 new World("Test6", 6)
         )));
 
-        assertEquals(6, preTestDAO.findAll().size());
+        assertEquals(6, preTestDAO.findAll().size() - tAvant);
 
         preTestDAO.close();
     }
