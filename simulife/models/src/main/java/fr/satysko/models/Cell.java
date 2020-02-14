@@ -18,8 +18,8 @@ public class Cell extends Entite {
 
 	public Cell() {}
 
-	public Cell(float niv, float hum) {
-		biome = new Biome(niv, hum);
+	public Cell(float niv, float hum, float tem) {
+		biome = new Biome(niv, hum, tem);
 	}
 
 	public World getWorld() {

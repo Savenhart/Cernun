@@ -29,6 +29,7 @@ public class World extends Entite {
     @Transient
     OpenSimplexNoise oNoise;
 
+
     public World(){}
 
     public World(String n, long s) {
@@ -40,9 +41,13 @@ public class World extends Entite {
     public void genCell(int x, int y) {
         Location k = new Location();
         k.setPos(new Vector2d(x, y));
-        float niv = (float) oNoise.eval(x / 20.0, y / 20.0);
+        //Génération du bruit pour l'élévation en fonction des coordonnées
+        float niv = (float) (oNoise.eval(x ,y ) + oNoise.eval(x *2 ,y * 2 ) / 2 + oNoise.eval(x * 4,y * 4 ) / 4);
+        //Génération du bruit pour l'élévation en fonction des coordonnées
         float hum = (float) oNoise.eval(0.2 * x / 20.0, 0.2 * y / 20.0);
-        Cell c = new Cell(niv, hum);
+        //Génération du bruit pour l'élévation en fonction des coordonnées
+        float tem = (float) oNoise.eval(0.2 * x / 20.0, 0.2 * y / 20.0);
+        Cell c = new Cell(niv, hum, tem);
         c.setWorld(this);
         c.setLocation(k);
         cells.put(k, c);

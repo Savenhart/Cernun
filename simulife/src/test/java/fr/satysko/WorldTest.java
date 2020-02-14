@@ -2,6 +2,7 @@ package fr.satysko;
 
 import fr.satysko.dao.Constantes;
 import fr.satysko.dao.GenericDAO;
+import fr.satysko.models.Cell;
 import fr.satysko.models.World;
 import org.junit.After;
 import org.junit.Before;
@@ -12,7 +13,6 @@ import static org.junit.Assert.assertNotEquals;
 
 public class WorldTest {
 
-    GenericDAO<World> worldDAO;
     World w;
 
     @Test
@@ -27,12 +27,9 @@ public class WorldTest {
 
     @Before
     public void preTest(){
-        worldDAO = new GenericDAO<>(Constantes.PERSISTENCE_UNIT_NAME_TU, World.class);
-        w = new World("Babar", 0);
+        w = new World("Cernun", 0);
     }
 
     @After
-    public void postTest(){
-        worldDAO.close();
-    }
+    public void postTest(){}
 }
