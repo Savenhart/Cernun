@@ -1,130 +1,40 @@
 package fr.satysko.utils;
 
 public enum EBiome {
-	OCEAN{
-		public String toString(){
-			return "Ocean";
-		}
-	},
-	OCEANTROPICAL{
-		public String toString(){
-			return "Ocean tempéré";
-		}
-	},
-	BANQUISE{
-		public String toString(){
-			return "Banquise";
-		}
-	},
-	PLAGE{
-		public String toString(){
-			return "Plage";
-		}
-	},
-	PLAGEGLACE{
-		public String toString(){
-			return "Plage glacée";
-		}
-	},
-	PLAGETROPICALE{
-		public String toString(){
-			return "Plage Tropicale";
-		}
-	},
-	MARAIS{
-		public String toString(){
-			return "Marais";
-		}
-	},
-	MARAISGLACE{
-		public String toString(){
-			return "Marais glacé";
-		}
-	},
-	MARAISTROPICAL{
-		public String toString(){
-			return "Marais Tropical";
-		}
-	},
-	INLANDSIS{
-		public String toString(){
-			return "Inlandsis";
-		}
-	},
-	FORET{
-		public String toString(){
-			return "Forêt";
-		}
-	},
-	MANGROVE{
-		public String toString(){
-			return "Mangrove";
-		}
-	},
-	PERMAFROST{
-		public String toString(){
-			return "Permafrost";
-		}
-	},
-	FORETTROPICALE{
-		public String toString(){
-			return "Forêt tropicale";
-		}
-	},
-	JUNGLE{
-		public String toString(){
-			return "Jungle";
-		}
-	},
-	TOUNDRA{
-		public String toString(){
-			return "Toundra";
-		}
-	},
-	TAIGA{
-		public String toString(){
-			return "Taiga";
-		}
-	},
-	PLAINE{
-		public String toString(){
-			return "Plaine";
-		}
-	},
-	SAVANE{
-		public String toString(){
-			return "Savane";
-		}
-	},
-	DESERTGLACE{
-		public String toString(){
-			return "Désert Glacé";
-		}
-	},
-	STEPPE{
-		public String toString(){
-			return "Steppe";
-		}
-	},
-	PAMPA{
-		public String toString(){
-			return "Pampa";
-		}
-	},
-	DESERT{
-		public String toString(){
-			return "Désert";
-		}
-	},
-	HAUTPLATEAU{
-		public String toString(){
-			return "Haut plateau";
-		}
-	},
-	MONTAGNE{
-		public String toString(){
-			return "Montagne";
-		}
-	},
+	OCEAN("Ocean"),
+	OCEANTROPICAL("Ocean tropical"),
+	BANQUISE("Banquise"),
+	PLAGE("Plage"),
+	PLAGEGLACE("Plage glacée"),
+	PLAGETROPICALE("Plage tropicale"),
+	MARAIS("Marais"),
+	MARAISGLACE("Marais glacé"),
+	MARAISTROPICAL("Marais tropical"),
+	INLANDSIS("Inlandsis"),
+	FORET("Forêt"),
+	MANGROVE("Mangrove"),
+	PERMAFROST("Permafrost"),
+	FORETTROPICALE("Forêt tropicale"),
+	JUNGLE("Jungle"),
+	TOUNDRA("Toundra"),
+	TAIGA("Taiga"),
+	PLAINE("Plaine"),
+	SAVANE("Savane"),
+	DESERTGLACE("Désert glacé"),
+	STEPPE("Steppe"),
+	PAMPA("Pampa"),
+	DESERT("Désert"),
+	HAUTPLATEAU("Haut plateau"),
+	MONTAGNE("Montagne"),
+	;
 
+	private String name;
+
+	public String getName(){
+		return this.name;
+	}
+
+	private EBiome(String name) {
+		this.name = name;
+	}
 }

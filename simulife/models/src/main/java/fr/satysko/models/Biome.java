@@ -99,6 +99,6 @@ public class Biome {
 	}
 		
 	public String getBiome() {
-		return biome.toString();
+		return biome.getName();
 	}
 }
