@@ -15,19 +15,20 @@ public class World extends Entite {
     private String name;
     private long seed;
 
-    @OneToMany(mappedBy = "world")
-    private Set<Cell> cellsSet;
-    @OneToMany(mappedBy = "world")
-    private Set<Food> foodsSet;
-    @OneToMany(mappedBy = "world")
+    @OneToMany(mappedBy = "world", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    private Set<Cell> cellsSet = new HashSet<>();
+    @OneToMany(mappedBy = "world", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    private Set<Food> foodsSet = new HashSet<>();
+    @OneToMany(mappedBy = "world", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     private Set<Appartenance> appartenances;
 
     @Transient
-    private Map<Coordonnees, Cell> cells;
+    private Map<Location, Cell> cells = new HashMap<>();
     @Transient
-    private Map<Coordonnees, Food> foods;
+    private Map<Location, Food> foods = new HashMap<>();
     @Transient
     OpenSimplexNoise oNoise;
+
 
     public World(){}
 
@@ -35,15 +36,20 @@ public class World extends Entite {
         name = n;
         seed = s;
         oNoise = new OpenSimplexNoise(seed);
-        cells = new HashMap<Coordonnees, Cell>();
     }
 
     public void genCell(int x, int y) {
-        Coordonnees k = new Coordonnees();
+        Location k = new Location();
         k.setPos(new Vector2d(x, y));
-        float niv = (float) oNoise.eval(x / 20.0, y / 20.0);
+        //Génération du bruit pour l'élévation en fonction des coordonnées
+        float niv = (float) (oNoise.eval(x ,y ) + oNoise.eval(x *2 ,y * 2 ) / 2 + oNoise.eval(x * 4,y * 4 ) / 4);
+        //Génération du bruit pour l'élévation en fonction des coordonnées
         float hum = (float) oNoise.eval(0.2 * x / 20.0, 0.2 * y / 20.0);
-        Cell c = new Cell(niv, hum);
+        //Génération du bruit pour l'élévation en fonction des coordonnées
+        float tem = (float) oNoise.eval(0.2 * x / 20.0, 0.2 * y / 20.0);
+        Cell c = new Cell(niv, hum, tem);
+        c.setWorld(this);
+        c.setLocation(k);
         cells.put(k, c);
     }
 
@@ -71,13 +77,29 @@ public class World extends Entite {
         this.appartenances = appartenances;
     }
 
+    public Map<Location, Cell> getCells() {
+        return cells;
+    }
+
+    public void setCells(Map<Location, Cell> cells) {
+        this.cells = cells;
+    }
+
+    public Map<Location, Food> getFoods() {
+        return foods;
+    }
+
+    public void setFoods(Map<Location, Food> foods) {
+        this.foods = foods;
+    }
+
     @PostLoad
     private void postLoad(){
         for (Cell c : cellsSet) {
-            cells.put(c.getPos(), c);
+            cells.put(c.getLocation(), c);
         }
         for (Food f : foodsSet) {
-            foods.put(f.getPos(), f);
+            foods.put(f.getLocation(), f);
         }
     }
 

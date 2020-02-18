@@ -1,5 +1,6 @@
 package fr.satysko.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -11,7 +12,7 @@ public class Appartenance extends Entite {
     private World world;
     @ManyToOne
     private User user;
-    @OneToMany(mappedBy = "appartenance")
+    @OneToMany(mappedBy = "appartenance", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     private Set<Creature> creatures;
 
     public World getWorld() {
