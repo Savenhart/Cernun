@@ -17,9 +17,65 @@ public class Biome {
 
 	public Biome (float niv, float hum, float tem) {
 		if (niv > 0.85){
-			biome = EBiome.MONTAGNE;
+			if(tem > 0.8){
+				biome = EBiome.VOLCAN;
+			}else if(tem > 0.5){
+				if(hum > 0.5){
+					biome = EBiome.MONTAGNEJUNGLE;
+				}else if(hum > -0.5){
+					biome = EBiome.MONTAGNE;
+				}else{
+					biome = EBiome.MONTAGNEROCHEUSE;
+				}
+			}else if(tem > -0.5){
+				if(hum > 0.8){
+					biome = EBiome.MONTAGNEJUNGLE;
+				}else if(hum > 0.5){
+					biome = EBiome.MONTAGNEFORET;
+				}else if(hum > -0.5){
+					biome = EBiome.MONTAGNE;
+				}else{
+					biome = EBiome.MONTAGNEROCHEUSE;
+				}
+			}else{
+				if(hum > 0.5){
+					biome = EBiome.MONTAGNEFORETENNEIGEE;
+				}else if(hum > -0.8){
+					biome = EBiome.MONTAGNEENNEIGEE;
+				}else{
+					biome = EBiome.MONTAGNEROCHEUSEENNEIGEE;
+				}
+			}
 		}else if (niv > 0.55){
-			biome = EBiome.HAUTPLATEAU;
+			if(tem > 0.8){
+				biome = EBiome.PLATEAUVOLVANIQUE;
+			}else if(tem > 0.5){
+				if(hum > 0.5){
+					biome = EBiome.HAUTEJUNGLE;
+				}else if(hum > -0.5){
+					biome = EBiome.HAUTPLATEAU;
+				}else{
+					biome = EBiome.PLATEAUROCHEUX;
+				}
+			}else if(tem > -0.5){
+				if(hum > 0.8){
+					biome = EBiome.HAUTEJUNGLE;
+				}else if(hum > 0.5){
+					biome = EBiome.HAUTEFORET;
+				}else if(hum > -0.5){
+					biome = EBiome.HAUTPLATEAU;
+				}else{
+					biome = EBiome.PLATEAUROCHEUX;
+				}
+			}else{
+				if(hum > 0.5){
+					biome = EBiome.HAUTEFORETENNEIGEE;
+				}else if(hum > -0.8){
+					biome = EBiome.PLATEAUENNEIGEE;
+				}else{
+					biome = EBiome.PLATEAUROCHEUXENNEIGE;
+				}
+			}
 		}else if (niv > -0.05){
 			if(hum > 0.8){
 				if(tem > 0.5){
