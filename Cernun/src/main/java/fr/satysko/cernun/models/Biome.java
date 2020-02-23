@@ -150,7 +150,6 @@ public class Biome {
 				biome = EBiome.BANQUISE;
 			}
 		}
-		System.out.println("elevation : " + niv + " | humidite : " + hum + " | température : " + tem + " => " + getBiome());
 	}
 		
 	public String getBiome() {

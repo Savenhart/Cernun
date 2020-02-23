@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({WorldTest.class, WorldDaoTest.class, BiomeTest.class})
+@SuiteClasses({WorldTest.class, WorldDaoTest.class, BiomeTest.class, WorldServicesTest.class})
 public class SuiteTest {
 
 }
