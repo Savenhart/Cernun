@@ -1,11 +1,13 @@
 package fr.satysko.cernun.services;
 
-import fr.satysko.cernun.dao.UserDao;
+import fr.satysko.cernun.daos.UserDao;
 import fr.satysko.cernun.interfaces.GenericServices;
 import fr.satysko.cernun.models.User;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class UserService implements GenericServices<User> {
 
     //@Autowired
@@ -13,6 +15,10 @@ public class UserService implements GenericServices<User> {
 
     @Override
     public List<User> findAll() {
+        return null;
+    }
+
+    public List<User> findAll(int id) {
         return null;
     }
 
@@ -32,12 +38,16 @@ public class UserService implements GenericServices<User> {
     }
 
     @Override
-    public void delete(int id) {
-
+    public boolean delete(int id) {
+        return false;
     }
 
     @Override
     public void close() {
 
+    }
+
+    public User connect(User u) {
+        return null;
     }
 }

@@ -12,7 +12,7 @@ public interface GenericServices<T> {
 
     T update(T t);
 
-    void delete(int id);
+    boolean delete(int id);
 
     void close();
 }

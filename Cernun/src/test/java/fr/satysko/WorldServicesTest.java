@@ -1,16 +1,12 @@
 package fr.satysko;
 
-import fr.satysko.cernun.dao.Constantes;
-import fr.satysko.cernun.dao.GenericDAO;
+import fr.satysko.cernun.daos.GenericDAO;
 import fr.satysko.cernun.models.World;
 import fr.satysko.cernun.services.WorldServices;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.util.Arrays;
-import java.util.HashSet;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotNull;
@@ -53,8 +49,8 @@ public class WorldServicesTest {
 
     @Before
     public void preTest(){
-        services = new WorldServices(Constantes.PERSISTENCE_UNIT_NAME_TU);
-        verifDAO = new GenericDAO<>(Constantes.PERSISTENCE_UNIT_NAME_TU, World.class);
+//        services = new WorldServices(Constantes.PERSISTENCE_UNIT_NAME_TU);
+//        verifDAO = new GenericDAO<>(Constantes.PERSISTENCE_UNIT_NAME_TU, World.class);
     }
 
     @After

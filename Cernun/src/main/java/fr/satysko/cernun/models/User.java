@@ -9,7 +9,7 @@ import java.util.Set;
 public class User extends Entite {
 
     private String name;
-    private String pseudo;
+    private String userName;
     private String password;
 
     @OneToOne
@@ -27,12 +27,12 @@ public class User extends Entite {
         this.name = name;
     }
 
-    public String getPseudo() {
-        return pseudo;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setPseudo(String pseudo) {
-        this.pseudo = pseudo;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {

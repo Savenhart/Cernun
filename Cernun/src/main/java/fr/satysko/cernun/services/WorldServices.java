@@ -1,6 +1,6 @@
 package fr.satysko.cernun.services;
 
-import fr.satysko.cernun.dao.GenericDAO;
+import fr.satysko.cernun.daos.GenericDAO;
 import fr.satysko.cernun.interfaces.GenericServices;
 import fr.satysko.cernun.models.World;
 
@@ -36,7 +36,7 @@ public class WorldServices implements GenericServices<World> {
     }
 
     @Override
-    public void delete(int id) {
+    public boolean delete(int id) {
 
     }
 

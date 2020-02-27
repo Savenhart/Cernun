@@ -1,17 +1,12 @@
 package fr.satysko;
 
-import fr.satysko.cernun.dao.Constantes;
-import fr.satysko.cernun.dao.GenericDAO;
+import fr.satysko.cernun.daos.GenericDAO;
 import fr.satysko.cernun.models.World;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-
-import java.util.Arrays;
-import java.util.HashSet;
 
 public class WorldDaoTest {
 
@@ -36,7 +31,7 @@ public class WorldDaoTest {
 
     @Before
     public void preTest(){
-        worldDAO = new GenericDAO<>(Constantes.PERSISTENCE_UNIT_NAME_TU, World.class);
+        //worldDAO = new GenericDAO<>(Constantes.PERSISTENCE_UNIT_NAME_TU, World.class);
         w = new World("Babar", 0);
     }
 
@@ -45,24 +40,24 @@ public class WorldDaoTest {
         worldDAO.close();
     }
 
-    @BeforeClass
-    public static void preClass(){
-        GenericDAO<World> preTestDAO = new GenericDAO<>(Constantes.PERSISTENCE_UNIT_NAME_TU, World.class);
-
-        int tAvant = preTestDAO.findAll().size();
-
-        preTestDAO.saveAll(new HashSet<World>(Arrays.asList(
-                new World("Test1", 1),
-                new World("Test2", 2),
-                new World("Test3", 3),
-                new World("Test4", 4),
-                new World("Test5", 5),
-                new World("Test6", 6)
-        )));
-
-        assertEquals(6, preTestDAO.findAll().size() - tAvant);
-
-        preTestDAO.close();
-    }
+//    @BeforeClass
+//    public static void preClass(){
+//        GenericDAO<World> preTestDAO = new GenericDAO<>(Constantes.PERSISTENCE_UNIT_NAME_TU, World.class);
+//
+//        int tAvant = preTestDAO.findAll().size();
+//
+//        preTestDAO.saveAll(new HashSet<World>(Arrays.asList(
+//                new World("Test1", 1),
+//                new World("Test2", 2),
+//                new World("Test3", 3),
+//                new World("Test4", 4),
+//                new World("Test5", 5),
+//                new World("Test6", 6)
+//        )));
+//
+//        assertEquals(6, preTestDAO.findAll().size() - tAvant);
+//
+//        preTestDAO.close();
+//    }
 
 }
