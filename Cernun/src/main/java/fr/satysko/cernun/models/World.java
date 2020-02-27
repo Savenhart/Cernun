@@ -20,7 +20,7 @@ public class World extends Entite {
     @OneToMany(mappedBy = "world", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     private Set<Food> foodsSet = new HashSet<>();
     @OneToMany(mappedBy = "world", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
-    private Set<Appartenance> appartenances;
+    private Set<UserWorld> userWorlds;
 
     @Transient
     private Map<Location, Cell> cells = new HashMap<>();
@@ -69,12 +69,12 @@ public class World extends Entite {
         this.seed = seed;
     }
 
-    public Set<Appartenance> getAppartenances() {
-        return appartenances;
+    public Set<UserWorld> getUserWorlds() {
+        return userWorlds;
     }
 
-    public void setAppartenances(Set<Appartenance> appartenances) {
-        this.appartenances = appartenances;
+    public void setUserWorlds(Set<UserWorld> userWorlds) {
+        this.userWorlds = userWorlds;
     }
 
     public Map<Location, Cell> getCells() {

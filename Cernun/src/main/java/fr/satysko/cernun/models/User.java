@@ -10,11 +10,14 @@ public class User extends Entite {
 
     private String name;
     private String pseudo;
+    private String password;
 
     @OneToOne
     private Picture avatar;
-    @OneToMany(mappedBy = "world")
-    private Set<Appartenance> appartenances;
+    @OneToMany(mappedBy = "user")
+    private Set<UserWorld> userWorlds;
+    @OneToMany(mappedBy = "user")
+    private Set<Droit> droits;
 
     public String getName() {
         return name;
@@ -32,11 +35,35 @@ public class User extends Entite {
         this.pseudo = pseudo;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Picture getAvatar() {
         return avatar;
     }
 
     public void setAvatar(Picture avatar) {
         this.avatar = avatar;
+    }
+
+    public Set<UserWorld> getUserWorlds() {
+        return userWorlds;
+    }
+
+    public void setUserWorlds(Set<UserWorld> userWorlds) {
+        this.userWorlds = userWorlds;
+    }
+
+    public Set<Droit> getDroits() {
+        return droits;
+    }
+
+    public void setDroits(Set<Droit> droits) {
+        this.droits = droits;
     }
 }
