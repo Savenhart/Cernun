@@ -1,0 +1,3 @@
+https://jasonwatmore.com/post/2019/06/22/angular-8-jwt-authentication-example-tutorial
+https://www.techiediaries.com/angular/angular-9-reactive-forms-validation-tutorial-example/
+https://jasonwatmore.com/post/2019/06/10/angular-8-user-registration-and-login-example-tutorial
