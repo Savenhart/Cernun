@@ -1,5 +1,6 @@
 package fr.satysko.cernun.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.satysko.cernun.utils.OpenSimplexNoise;
 
 import javax.persistence.*;
@@ -20,13 +21,16 @@ public class World extends Entite {
     @OneToMany(mappedBy = "world", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     private Set<Food> foodsSet = new HashSet<>();
     @OneToMany(mappedBy = "world", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
-    private Set<Appartenance> appartenances;
+    private Set<UserWorld> userWorlds;
 
     @Transient
+    @JsonIgnore
     private Map<Location, Cell> cells = new HashMap<>();
     @Transient
+    @JsonIgnore
     private Map<Location, Food> foods = new HashMap<>();
     @Transient
+    @JsonIgnore
     OpenSimplexNoise oNoise;
 
 
@@ -69,12 +73,12 @@ public class World extends Entite {
         this.seed = seed;
     }
 
-    public Set<Appartenance> getAppartenances() {
-        return appartenances;
+    public Set<UserWorld> getUserWorlds() {
+        return userWorlds;
     }
 
-    public void setAppartenances(Set<Appartenance> appartenances) {
-        this.appartenances = appartenances;
+    public void setUserWorlds(Set<UserWorld> userWorlds) {
+        this.userWorlds = userWorlds;
     }
 
     public Map<Location, Cell> getCells() {

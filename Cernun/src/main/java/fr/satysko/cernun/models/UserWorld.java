@@ -7,12 +7,12 @@ import javax.persistence.OneToMany;
 import java.util.Set;
 
 @Entity
-public class Appartenance extends Entite {
+public class UserWorld extends Entite {
     @ManyToOne
     private World world;
     @ManyToOne
     private User user;
-    @OneToMany(mappedBy = "appartenance", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "userWorld", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     private Set<Creature> creatures;
 
     public World getWorld() {

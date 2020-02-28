@@ -1,4 +1,4 @@
-package fr.satysko.cernun.dao;
+package fr.satysko.cernun.daos;
 
 
 import fr.satysko.cernun.models.Entite;

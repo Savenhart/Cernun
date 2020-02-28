@@ -7,6 +7,7 @@ public class Picture extends Entite {
 
     private String name;
     private String ipath;
+    private String extension;
 
     public String getName() {
         return name;
@@ -22,5 +23,13 @@ public class Picture extends Entite {
 
     public void setIpath(String ipath) {
         this.ipath = ipath;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 }
