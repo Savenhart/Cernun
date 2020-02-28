@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-white bg-white">
+  <a class="navbar-brand" href="#">Cernun</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/home" routerLinkActive="active">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login" routerLinkActive="active" *ngIf="!currentUser">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/register" routerLinkActive="active" *ngIf="!currentUser">Register</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/admin" routerLinkActive="active" *ngIf="currentUser">Admin</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="logout()" routerLink="/login" routerLinkActive="active" *ngIf="currentUser">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
