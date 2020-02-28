@@ -20,12 +20,14 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
-    login(userName: string, password: string) {
-        return this.http.post<any>(`${environment.apiUrl}/users/authenticate`, { userName, password })
+    login(accountName: string, password: string) {
+        return this.http.post<any>(`${environment.apiUrl}/user/connect`, { accountName, password })
             .pipe(map(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                this.currentUserSubject.next(user);
+                if (user.statusHttp === 200) {
+                  localStorage.setItem('currentUser', JSON.stringify(user));
+                  this.currentUserSubject.next(user.content);
+                }
                 return user;
             }));
     }

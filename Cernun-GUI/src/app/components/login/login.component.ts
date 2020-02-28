@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from '../../_services/authentication.service';
 import { User } from '../../_models/user.model';
+import { userInfo } from 'os';
 
 @Component({ templateUrl: 'login.component.html' })
 export class LoginComponent implements OnInit {
@@ -27,7 +28,7 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
-            userName: ['', Validators.required],
+            accountName: ['', Validators.required],
             password: ['', Validators.required]
         });
 
@@ -47,11 +48,16 @@ export class LoginComponent implements OnInit {
         }
 
         this.loading = true;
-        this.authenticationService.login(this.f.userName.value, this.f.password.value)
+        this.authenticationService.login(this.f.accountName.value, this.f.password.value)
             .pipe(first())
             .subscribe(
                 data => {
+                  if (data.statusHttp === 200) {
                     this.router.navigate([this.returnUrl]);
+                  } else {
+                    this.error = data.error;
+                    this.loading = false;
+                  }
                 },
                 error => {
                     this.error = error;
