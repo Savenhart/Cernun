@@ -33,9 +33,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     // route functions
 
     function authenticate() {
-      console.log(body);
       const { userName, password } = body;
-      console.log(userName);
       const user = users.find(x => x.userName === userName && x.password === password);
       if (!user) { return error('UserName or password is incorrect'); }
       return ok({
