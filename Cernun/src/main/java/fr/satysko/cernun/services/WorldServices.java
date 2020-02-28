@@ -37,11 +37,6 @@ public class WorldServices implements GenericServices<World> {
 
     @Override
     public boolean delete(int id) {
-
-    }
-
-    @Override
-    public void close() {
-
+        return false;
     }
 }

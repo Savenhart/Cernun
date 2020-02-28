@@ -5,6 +5,7 @@ import fr.satysko.cernun.models.RestResponse;
 import fr.satysko.cernun.models.User;
 import fr.satysko.cernun.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,11 +21,11 @@ public class UserController {
     //Liste tous les utilisateurs
     @GetMapping({"", "/", "/all"})
     public RestResponse<List<User>> getAllUsers(){
-        RestResponse<List<User>> response = null;
+        RestResponse<List<User>> response;
         try{
             List<User> users = userService.findAll();
             if(users == null || users.size() == 0){
-                response = new RestResponse<>(new UserException("Aucun utilisateur trouvé"), 204);
+                response = new RestResponse<>(new UserException("Aucun utilisateur trouvés"), 204);
             }else {
                 response = new RestResponse<>(users);
             }
@@ -37,7 +38,7 @@ public class UserController {
     //Liste tous les utilisateurs d'un monde défini
     @GetMapping({"/all/{id}"})
     public RestResponse<List<User>> getAllUsersWorld(@PathVariable("id") int id){
-        RestResponse<List<User>> response = null;
+        RestResponse<List<User>> response;
         try{
             List<User> users = userService.findAll(id);
             if(users == null || users.size() == 0){
@@ -54,7 +55,7 @@ public class UserController {
     //Retourne un utilisateur par son id
     @GetMapping("/find/{id}")
     public RestResponse<User> findById(@PathVariable("id") int id){
-        RestResponse<User> response = null;
+        RestResponse<User> response;
         try {
             User user = userService.find(id);
             if(user == null){
@@ -69,13 +70,13 @@ public class UserController {
     }
 
     //Retourne un utilisateur par son Name et Password
-    @GetMapping("/connect")
+    @PostMapping("/connect")
     public RestResponse<User> connect(@RequestBody User u){
-        RestResponse<User> response = null;
+        RestResponse<User> response;
         try {
             User user = userService.connect(u);
             if(user == null){
-                response = new RestResponse<User>(new UserException("Association UserName / mot de passe incorrect"), 204);
+                response = new RestResponse<User>(new UserException("Association UserName - mot de passe incorrect"), 204);
             }else {
                 response = new RestResponse<>(user);
             }
@@ -102,15 +103,25 @@ public class UserController {
     }
 
     //Crée un utilisateur
-    @PostMapping("")
-    public RestResponse<User> create(@RequestBody User user){
+    @PostMapping("/create")
+    public RestResponse<User> create(@RequestBody User u){
         RestResponse<User> response = null;
-
+        try {
+            User user = userService.create(u);
+            if(user == null){
+                response = new RestResponse<User>(new UserException("L'utilisateur n'a pas pu être créé"), 204);
+            }else {
+                response = new RestResponse<>(user);
+            }
+        }catch (Exception e){
+            response = new RestResponse<>(e, 400);
+        }
         return response;
     }
 
+
     //Met à jour un utilisateur
-    @PutMapping("")
+    @PutMapping({"", "/"})
     public RestResponse<User> update(@RequestBody User user){
         RestResponse<User> response = null;
 

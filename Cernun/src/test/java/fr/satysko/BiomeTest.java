@@ -4,6 +4,8 @@ import fr.satysko.cernun.models.Biome;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import static org.junit.runners.Parameterized.Parameters;
 import static org.junit.runners.Parameterized.Parameter;
 
@@ -13,6 +15,7 @@ import java.util.Collection;
 import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
+@SpringBootTest
 public class BiomeTest {
 
     @Parameters

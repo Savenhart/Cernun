@@ -13,6 +13,4 @@ public interface GenericServices<T> {
     T update(T t);
 
     boolean delete(int id);
-
-    void close();
 }

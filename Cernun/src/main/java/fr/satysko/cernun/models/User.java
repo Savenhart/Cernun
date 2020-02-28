@@ -1,5 +1,6 @@
 package fr.satysko.cernun.models;
 
+
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -8,7 +9,7 @@ import java.util.Set;
 @Entity
 public class User extends Entite {
 
-    private String name;
+    private String accountName;
     private String userName;
     private String password;
 
@@ -19,12 +20,12 @@ public class User extends Entite {
     @OneToMany(mappedBy = "user")
     private Set<Droit> droits;
 
-    public String getName() {
-        return name;
+    public String getAccountName() {
+        return accountName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
     public String getUserName() {

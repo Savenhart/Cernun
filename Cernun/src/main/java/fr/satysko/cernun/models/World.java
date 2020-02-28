@@ -1,5 +1,6 @@
 package fr.satysko.cernun.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.satysko.cernun.utils.OpenSimplexNoise;
 
 import javax.persistence.*;
@@ -23,10 +24,13 @@ public class World extends Entite {
     private Set<UserWorld> userWorlds;
 
     @Transient
+    @JsonIgnore
     private Map<Location, Cell> cells = new HashMap<>();
     @Transient
+    @JsonIgnore
     private Map<Location, Food> foods = new HashMap<>();
     @Transient
+    @JsonIgnore
     OpenSimplexNoise oNoise;
 
 

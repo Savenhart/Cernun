@@ -53,12 +53,6 @@ public class WorldServicesTest {
 //        verifDAO = new GenericDAO<>(Constantes.PERSISTENCE_UNIT_NAME_TU, World.class);
     }
 
-    @After
-    public void postTest(){
-        services.close();
-        verifDAO.close();
-    }
-
     @BeforeClass
     public static void preClass(){
     }

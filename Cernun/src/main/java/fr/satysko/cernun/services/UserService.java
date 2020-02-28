@@ -1,8 +1,9 @@
 package fr.satysko.cernun.services;
 
-import fr.satysko.cernun.daos.UserDao;
 import fr.satysko.cernun.interfaces.GenericServices;
 import fr.satysko.cernun.models.User;
+import fr.satysko.cernun.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,12 +11,12 @@ import java.util.List;
 @Service
 public class UserService implements GenericServices<User> {
 
-    //@Autowired
-    UserDao dao;
+    @Autowired
+    UserRepository repository;
 
     @Override
     public List<User> findAll() {
-        return null;
+        return repository.findAll();
     }
 
     public List<User> findAll(int id) {
@@ -24,12 +25,12 @@ public class UserService implements GenericServices<User> {
 
     @Override
     public User find(int id) {
-        return null;
+        return repository.findById(id).orElse(null);
     }
 
     @Override
     public User create(User user) {
-        return null;
+        return repository.save(user);
     }
 
     @Override
@@ -42,12 +43,7 @@ public class UserService implements GenericServices<User> {
         return false;
     }
 
-    @Override
-    public void close() {
-
-    }
-
     public User connect(User u) {
-        return null;
+        return repository.findByAccountNameAndPassword(u.getAccountName(), u.getPassword());
     }
 }
