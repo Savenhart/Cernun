@@ -41,3 +41,5 @@ persistence.xml
 .metadata/
 
 *.properties
+Cernun-GUI/node_modules/
+Cernun-GUI/dist/
