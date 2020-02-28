@@ -4,23 +4,30 @@ import fr.satysko.cernun.exceptions.UserException;
 import fr.satysko.cernun.models.RestResponse;
 import fr.satysko.cernun.models.User;
 import fr.satysko.cernun.services.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = {"http://localhost:/4200"})
+@CrossOrigin(origins = {"http://localhost:4200"})
 public class UserController {
 
+
+    private static final Logger logger = LogManager.getLogger(UserController.class);
     @Autowired
     private UserService userService;
 
     //Liste tous les utilisateurs
     @GetMapping({"", "/", "/all"})
     public RestResponse<List<User>> getAllUsers(){
+        logger.info("Recherche de tous les utilisateurs");
+        logger.warn("Recherche de tous les utilisateurs");
+        logger.error("Recherche de tous les utilisateurs");
         RestResponse<List<User>> response;
         try{
             List<User> users = userService.findAll();
@@ -86,19 +93,19 @@ public class UserController {
         return response;
     }
 
-    //Vérifie la présence d'un utilisateur possedant un Name
-    @GetMapping("/verifyname/{name}")
-    public RestResponse<Boolean> verifyName(@PathVariable("name") String name){
-        RestResponse<Boolean> response = null;
-
-        return response;
-    }
-
-    //Vérifie la présence d'un utilisateur possedant un UserName
-    @GetMapping("/verifyusername/{username}")
-    public RestResponse<Boolean> verifyUserName(@PathVariable("username") String userName){
-        RestResponse<Boolean> response = null;
-
+    //Vérifie la présence d'un utilisateur possedant un username ou AccountName
+    @GetMapping("/verify/{name}")
+    public RestResponse<String> verifyName(@PathVariable("name") String name){
+        RestResponse<String> response = null;
+        try {
+            if(userService.verify(name)){
+                response = new RestResponse<>("Ce nom est disponible");
+            }else {
+                response = new RestResponse<String>(new UserException("Ce nom est déjà utilisé"), 204);
+            }
+        }catch (Exception e){
+            response = new RestResponse<>(e, 400);
+        }
         return response;
     }
 
@@ -107,12 +114,18 @@ public class UserController {
     public RestResponse<User> create(@RequestBody User u){
         RestResponse<User> response = null;
         try {
-            User user = userService.create(u);
-            if(user == null){
-                response = new RestResponse<User>(new UserException("L'utilisateur n'a pas pu être créé"), 204);
+            if(u.getAccountName().equals(u.getUserName())){
+                response = new RestResponse<User>(new UserException("Les champs nom d'utilisateur et nom de compte doivent être différents"), 204);
             }else {
-                response = new RestResponse<>(user);
+                User user = userService.create(u);
+                if (user == null) {
+                    response = new RestResponse<User>(new UserException("L'utilisateur n'a pas pu être créé"), 204);
+                } else {
+                    response = new RestResponse<>(user);
+                }
             }
+        }catch (DataIntegrityViolationException e){
+            response = new RestResponse<>(new UserException("Nom d'utilisateur ou nom de compte déjà existant"), 204);
         }catch (Exception e){
             response = new RestResponse<>(e, 400);
         }
