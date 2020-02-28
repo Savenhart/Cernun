@@ -1,6 +1,6 @@
 export class User {
   id: number;
-  name: string;
+  accountName: string;
   userName: string;
   password: string;
   // private _avatar: picture;

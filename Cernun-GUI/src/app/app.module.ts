@@ -12,7 +12,6 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
-import { fakeBackendProvider } from './_helpers/fake-backend';
 import { AdminComponent } from './components/admin/admin.component';
 
 @NgModule({
@@ -36,8 +35,6 @@ import { AdminComponent } from './components/admin/admin.component';
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
-    // provider used to create fake backend
-    fakeBackendProvider
 ],
   bootstrap: [AppComponent]
 })
