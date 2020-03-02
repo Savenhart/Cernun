@@ -17,10 +17,13 @@ public class World extends Entite {
     private long seed;
 
     @OneToMany(mappedBy = "world", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonIgnore
     private Set<Cell> cellsSet = new HashSet<>();
     @OneToMany(mappedBy = "world", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonIgnore
     private Set<Food> foodsSet = new HashSet<>();
     @OneToMany(mappedBy = "world", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonIgnore
     private Set<UserWorld> userWorlds;
 
     @Transient
@@ -42,7 +45,7 @@ public class World extends Entite {
         oNoise = new OpenSimplexNoise(seed);
     }
 
-    public void genCell(int x, int y) {
+    public Cell genCell(int x, int y) {
         Location k = new Location();
         k.setPos(new Vector2d(x, y));
         //Génération du bruit pour l'élévation en fonction des coordonnées
@@ -55,6 +58,7 @@ public class World extends Entite {
         c.setWorld(this);
         c.setLocation(k);
         cells.put(k, c);
+        return c;
     }
 
     public String getName() {
@@ -99,6 +103,7 @@ public class World extends Entite {
 
     @PostLoad
     private void postLoad(){
+        oNoise = new OpenSimplexNoise(seed);
         for (Cell c : cellsSet) {
             cells.put(c.getLocation(), c);
         }
