@@ -13,6 +13,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { AdminComponent } from './components/admin/admin.component';
+import { WorldComponent } from './components/world/world.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { AdminComponent } from './components/admin/admin.component';
     LoginComponent,
     RegisterComponent,
     AdminComponent,
+    WorldComponent,
   ],
   imports: [
     BrowserModule,
