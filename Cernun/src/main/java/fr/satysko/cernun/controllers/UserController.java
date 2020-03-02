@@ -98,7 +98,7 @@ public class UserController {
             if(userService.verify(name)){
                 response = new RestResponse<>("Ce nom est disponible");
             }else {
-                response = new RestResponse<String>(new UserException("Ce nom est déjà utilisé"), 204);
+                response = new RestResponse<>(new UserException("Ce nom est déjà utilisé"), 204);
             }
         }catch (Exception e){
             response = new RestResponse<>(e, 400);
@@ -111,12 +111,14 @@ public class UserController {
     public RestResponse<User> create(@RequestBody User u){
         RestResponse<User> response;
         try {
-            if(u.getAccountName().equals(u.getUserName())){
-                response = new RestResponse<User>(new UserException("Les champs nom d'utilisateur et nom de compte doivent être différents"), 204);
+            if(u.getAccountName().equals(u.getUserName())) {
+                response = new RestResponse<>(new UserException("Les champs nom d'utilisateur et nom de compte doivent être différents"), 204);
+            }else if(!userService.verify(u.getUserName()) || !userService.verify(u.getAccountName())){
+                response = new RestResponse<>(new UserException("Le champ nom d'utilisateur ou nom de compte sont déjà utilisés"), 204);
             }else {
                 User user = userService.create(u);
                 if (user == null) {
-                    response = new RestResponse<User>(new UserException("L'utilisateur n'a pas pu être créé"), 204);
+                    response = new RestResponse<>(new UserException("L'utilisateur n'a pas pu être créé"), 204);
                 } else {
                     response = new RestResponse<>(user);
                 }
