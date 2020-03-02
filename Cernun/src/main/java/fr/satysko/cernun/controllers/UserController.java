@@ -25,9 +25,6 @@ public class UserController {
     //Liste tous les utilisateurs
     @GetMapping({"", "/", "/all"})
     public RestResponse<List<User>> getAllUsers(){
-        logger.info("Recherche de tous les utilisateurs");
-        logger.warn("Recherche de tous les utilisateurs");
-        logger.error("Recherche de tous les utilisateurs");
         RestResponse<List<User>> response;
         try{
             List<User> users = userService.findAll();
@@ -96,7 +93,7 @@ public class UserController {
     //Vérifie la présence d'un utilisateur possedant un username ou AccountName
     @GetMapping("/verify/{name}")
     public RestResponse<String> verifyName(@PathVariable("name") String name){
-        RestResponse<String> response = null;
+        RestResponse<String> response;
         try {
             if(userService.verify(name)){
                 response = new RestResponse<>("Ce nom est disponible");
@@ -112,7 +109,7 @@ public class UserController {
     //Crée un utilisateur
     @PostMapping("/create")
     public RestResponse<User> create(@RequestBody User u){
-        RestResponse<User> response = null;
+        RestResponse<User> response;
         try {
             if(u.getAccountName().equals(u.getUserName())){
                 response = new RestResponse<User>(new UserException("Les champs nom d'utilisateur et nom de compte doivent être différents"), 204);
@@ -135,17 +132,38 @@ public class UserController {
 
     //Met à jour un utilisateur
     @PutMapping({"", "/"})
-    public RestResponse<User> update(@RequestBody User user){
-        RestResponse<User> response = null;
-
+    public RestResponse<User> update(@RequestBody User u){
+        RestResponse<User> response;
+        try {
+            if(u.getAccountName().equals(u.getUserName())){
+                response = new RestResponse<User>(new UserException("Les champs nom d'utilisateur et nom de compte doivent être différents"), 204);
+            }else {
+                User user = userService.update(u);
+                if (user == null) {
+                    response = new RestResponse<User>(new UserException("L'utilisateur n'existe pas"), 204);
+                } else {
+                    response = new RestResponse<>(user);
+                }
+            }
+        }catch (Exception e){
+            response = new RestResponse<>(e, 400);
+        }
         return response;
     }
 
     //Supprime un utilisateur
     @DeleteMapping("/{id}")
-    public RestResponse<Boolean> delete(@PathVariable("id") int id){
-        RestResponse<Boolean> response = null;
-
+    public RestResponse<String> delete(@PathVariable("id") int id){
+        RestResponse<String> response;
+        try {
+            if(userService.delete(id)){
+                response = new RestResponse<>("L'utilisateur a bien été supprimé");
+            }else {
+                response = new RestResponse<String>(new UserException("L'utilisateur n'existe pas"), 204);
+            }
+        }catch (Exception e){
+            response = new RestResponse<>(e, 400);
+        }
         return response;
     }
 
