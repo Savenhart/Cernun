@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
@@ -11,6 +11,7 @@ import { RegisterService } from '../../_services/register.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+  @Input() fieldvalue = '';
   registerForm: FormGroup;
   loading = false;
   submitted = false;
@@ -72,5 +73,26 @@ export class RegisterComponent implements OnInit {
       this.error = 'Les mots de passes sont différents.';
       this.loading = false;
     }
+  }
+
+  keyup(event) {
+    console.log(event);
+    if (event !== '') {
+      this.registerService.verifyName(event).pipe(first())
+        .subscribe(
+          data => {
+            if (data.statusHttp === 200) {
+              this.error = '';
+            } else {
+              this.error = data.error;
+              this.loading = false;
+            }
+          },
+          error => {
+            this.error = error;
+            this.loading = false;
+          });
+    }
+
   }
 }

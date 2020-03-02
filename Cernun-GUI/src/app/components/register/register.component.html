@@ -9,14 +9,14 @@
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
               <div class="form-group">
                   <label for="accountName">accountName</label>
-                  <input type="text" formControlName="accountName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.accountName.errors }" />
+                  <input type="text" formControlName="accountName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.accountName.errors } " [value]="fieldvalue" (keyup)="keyup($event.target.value)" />
                   <div *ngIf="submitted && f.accountName.errors" class="invalid-feedback">
                       <div *ngIf="f.accountName.errors.required">accountName is required</div>
                   </div>
               </div>
               <div class="form-group">
                 <label for="userName">userName</label>
-                <input type="text" formControlName="userName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.userName.errors }" />
+                <input type="text" formControlName="userName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.userName.errors }" [value]="fieldvalue" (keyup)="keyup($event.target.value)"/>
                 <div *ngIf="submitted && f.userName.errors" class="invalid-feedback">
                     <div *ngIf="f.userName.errors.required">userName is required</div>
                 </div>

@@ -18,16 +18,25 @@ export class RegisterService {
   }
 
   register(accountName: string, password: string, passwordVerif: string, userName: string) {
-          return this.http.post<any>(`${environment.apiUrl}/user/create`, { accountName, password, userName})
-        .pipe(map(user => {
-            if (user.statusHttp === 200) {
-              localStorage.setItem('currentUser', JSON.stringify(user));
-              this.newUserSubject.next(user.content);
-            }
-            return user;
-        }));
+    return this.http.post<any>(`${environment.apiUrl}/user/create`, { accountName, password, userName })
+      .pipe(map(user => {
+        if (user.statusHttp === 200) {
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          this.newUserSubject.next(user.content);
+        }
+        return user;
+      }));
+  }
 
-
-}
+  verifyName(name: string) {
+    return this.http.get<any>(`${environment.apiUrl}/user/verify/${name}`)
+    .pipe(map(user => {
+      if (user.statusHttp === 200) {
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.newUserSubject.next(user.content);
+      }
+      return user;
+    }));
+  }
 
 }

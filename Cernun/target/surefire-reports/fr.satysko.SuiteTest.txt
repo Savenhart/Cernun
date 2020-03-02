@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: fr.satysko.SuiteTest
+-------------------------------------------------------------------------------
+Tests run: 85, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.069 s - in fr.satysko.SuiteTest

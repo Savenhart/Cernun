@@ -19,6 +19,9 @@
         <a class="nav-link" routerLink="/admin" routerLinkActive="active" *ngIf="currentUser">Admin</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" routerLink="/world" routerLinkActive="active" *ngIf="currentUser">World</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" (click)="logout()" routerLink="/login" routerLinkActive="active" *ngIf="currentUser">Logout</a>
       </li>
     </ul>
