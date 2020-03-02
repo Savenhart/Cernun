@@ -20,7 +20,7 @@ public class UserService implements GenericServices<User> {
     }
 
     public List<User> findAll(int id) {
-        return null;
+        return repository.findAllByWorld(id);
     }
 
     @Override
@@ -35,12 +35,19 @@ public class UserService implements GenericServices<User> {
 
     @Override
     public User update(User user) {
-        return null;
+        if(!repository.existsById(user.getId())){
+            return null;
+        }
+        return repository.save(user);
     }
 
     @Override
     public boolean delete(int id) {
-        return false;
+        if(!repository.existsById(id)){
+            return false;
+        }
+        repository.deleteById(id);
+        return true;
     }
 
     public User connect(User u) {

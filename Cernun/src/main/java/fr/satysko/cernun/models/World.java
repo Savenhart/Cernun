@@ -17,10 +17,13 @@ public class World extends Entite {
     private long seed;
 
     @OneToMany(mappedBy = "world", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonIgnore
     private Set<Cell> cellsSet = new HashSet<>();
     @OneToMany(mappedBy = "world", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonIgnore
     private Set<Food> foodsSet = new HashSet<>();
     @OneToMany(mappedBy = "world", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonIgnore
     private Set<UserWorld> userWorlds;
 
     @Transient

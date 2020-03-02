@@ -1,5 +1,7 @@
 package fr.satysko.cernun.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -16,8 +18,10 @@ public class User extends Entite {
     @OneToOne
     private Picture avatar;
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private Set<UserWorld> userWorlds;
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private Set<Droit> droits;
 
     public String getAccountName() {
