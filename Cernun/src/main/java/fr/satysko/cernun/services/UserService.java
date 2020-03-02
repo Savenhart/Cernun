@@ -47,7 +47,7 @@ public class UserService implements GenericServices<User> {
             return false;
         }
         repository.deleteById(id);
-        return true;
+        return !repository.existsById(id);
     }
 
     public User connect(User u) {
@@ -55,7 +55,6 @@ public class UserService implements GenericServices<User> {
     }
 
     public boolean verify(String name) {
-        List<User> verif = repository.findByUserNameOrAccountName(name, name);
-        return verif.size()==0;
+        return repository.verifyName(name);
     }
 }

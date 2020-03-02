@@ -1,9 +1,7 @@
 package fr.satysko;
 
-import fr.satysko.cernun.daos.GenericDAO;
 import fr.satysko.cernun.models.World;
-import fr.satysko.cernun.services.WorldServices;
-import org.junit.After;
+import fr.satysko.cernun.services.WorldService;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -11,10 +9,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotNull;
 
-public class WorldServicesTest {
+public class WorldServiceTest {
 
-    private GenericDAO<World> verifDAO;
-    private WorldServices services;
+    private WorldService services;
 
     @Test
     public void newEntry(){

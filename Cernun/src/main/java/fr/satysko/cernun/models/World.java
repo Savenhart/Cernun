@@ -45,7 +45,7 @@ public class World extends Entite {
         oNoise = new OpenSimplexNoise(seed);
     }
 
-    public void genCell(int x, int y) {
+    public Cell genCell(int x, int y) {
         Location k = new Location();
         k.setPos(new Vector2d(x, y));
         //Génération du bruit pour l'élévation en fonction des coordonnées
@@ -58,6 +58,7 @@ public class World extends Entite {
         c.setWorld(this);
         c.setLocation(k);
         cells.put(k, c);
+        return c;
     }
 
     public String getName() {
@@ -102,6 +103,7 @@ public class World extends Entite {
 
     @PostLoad
     private void postLoad(){
+        oNoise = new OpenSimplexNoise(seed);
         for (Cell c : cellsSet) {
             cells.put(c.getLocation(), c);
         }

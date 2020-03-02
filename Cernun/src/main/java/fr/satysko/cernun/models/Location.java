@@ -1,5 +1,7 @@
 package fr.satysko.cernun.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.vecmath.Vector2d;
 import java.util.Objects;
@@ -7,24 +9,25 @@ import java.util.Objects;
 @Embeddable
 public class Location {
 
-    private double posX;
-    private double posY;
+    private int posX;
+    private int posY;
     @Transient
+    @JsonIgnore
     private Vector2d pos;
 
-    public double getPosX() {
+    public int getPosX() {
         return posX;
     }
 
-    public void setPosX(double posX) {
+    public void setPosX(int posX) {
         this.posX = posX;
     }
 
-    public double getPosY() {
+    public int getPosY() {
         return posY;
     }
 
-    public void setPosY(double posY) {
+    public void setPosY(int posY) {
         this.posY = posY;
     }
 
@@ -44,8 +47,8 @@ public class Location {
     @PrePersist
     @PreUpdate
     private void preSave(){
-        posX = pos.x;
-        posY = pos.y;
+        posX = (int)pos.x;
+        posY = (int)pos.y;
     }
 
     @Override
