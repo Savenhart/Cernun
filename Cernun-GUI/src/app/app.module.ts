@@ -14,6 +14,7 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { AdminComponent } from './components/admin/admin.component';
 import { WorldComponent } from './components/world/world.component';
+import { CreditsComponent } from './components/credits/credits.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { WorldComponent } from './components/world/world.component';
     RegisterComponent,
     AdminComponent,
     WorldComponent,
+    CreditsComponent,
   ],
   imports: [
     BrowserModule,

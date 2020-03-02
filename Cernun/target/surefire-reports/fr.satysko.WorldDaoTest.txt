@@ -1,0 +1,20 @@
+-------------------------------------------------------------------------------
+Test set: fr.satysko.WorldDaoTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 4, Skipped: 0, Time elapsed: 0.001 s <<< FAILURE! - in fr.satysko.WorldDaoTest
+cascadeCellTest(fr.satysko.WorldDaoTest)  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException
+	at fr.satysko.WorldDaoTest.cascadeCellTest(WorldDaoTest.java:29)
+
+cascadeCellTest(fr.satysko.WorldDaoTest)  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException
+	at fr.satysko.WorldDaoTest.postTest(WorldDaoTest.java:40)
+
+newEntry(fr.satysko.WorldDaoTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.NullPointerException
+	at fr.satysko.WorldDaoTest.newEntry(WorldDaoTest.java:18)
+
+newEntry(fr.satysko.WorldDaoTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.NullPointerException
+	at fr.satysko.WorldDaoTest.postTest(WorldDaoTest.java:40)
+
