@@ -105,7 +105,7 @@
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
           <configuration>
-            <mainClass>fr.forma.springboot.SpringbootApplication</mainClass>
+            <mainClass>fr.satysko.cernun.CernunApplication</mainClass>
             <layout>JAR</layout>
           </configuration>
           <executions>
