@@ -76,7 +76,6 @@ export class RegisterComponent implements OnInit {
   }
 
   keyup(event) {
-    console.log(event);
     if (event !== '') {
       this.registerService.verifyName(event).pipe(first())
         .subscribe(
