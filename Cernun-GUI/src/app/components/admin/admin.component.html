@@ -1,1 +1,4 @@
-<p>admin works!</p>
+<ul>
+  <li *ngFor="let user of userList">{{ user.accountName}} {{ user.userName }}  <button type="button" class="btn btn-danger" (click)="onClickSuppr(user.id)">Supprimer</button></li>
+</ul>
+<div *ngIf="success" class="alert alert-success mt-3 mb-0">{{success}}</div>
