@@ -14,9 +14,6 @@ export class UserService {
 
     delete(id: number) {
       return this.http.delete<any>(`${environment.apiUrl}/user/${id}`).pipe(map(res => {
-        if (res.statusHttp === 200) {
-
-        }
         return res;
     }));
     }
