@@ -13,6 +13,7 @@ import java.util.Set;
 @Entity
 public class World extends Entite {
 
+    @Column(unique = true)
     private String name;
     private long seed;
 
