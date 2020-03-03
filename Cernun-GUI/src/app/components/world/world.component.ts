@@ -62,7 +62,17 @@ export class WorldComponent implements OnInit {
       .subscribe(
         data => {
           if (data.statusHttp === 200) {
-            this.router.navigate([this.returnUrl]);
+            this.worldService.getAll()
+            .pipe(first())
+            .subscribe(
+              data2 => {
+                this.submitted = false;
+                this.loading = false;
+                this.worldList = data2.content;
+              },
+              error2 => {
+                console.log(error2);
+              });
           } else {
             this.error = data.error;
             this.loading = false;
@@ -73,7 +83,7 @@ export class WorldComponent implements OnInit {
         });
   }
 
-  getAllWorld(){
+  getAllWorld() {
     this.worldService.getAll();
   }
 }
