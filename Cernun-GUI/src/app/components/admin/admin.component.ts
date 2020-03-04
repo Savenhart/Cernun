@@ -12,18 +12,23 @@ export class AdminComponent implements OnInit {
   userList: User[];
   error: string;
   success: string;
+  user: User;
 
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
     this.userService.getAll()
-      .pipe(first())
       .subscribe(
         data => {
-          this.userList = data.content;
+          this.userList = [];
+          for (const u of data.content) {
+            this.user = new User(u.id, u.accountName, u.userName, u.password);
+            this.userList.push(this.user);
+          }
+
         },
         error => {
-          console.log(error);
+
         });
   }
 
@@ -37,15 +42,19 @@ export class AdminComponent implements OnInit {
             .pipe(first())
             .subscribe(
               data2 => {
-                this.userList = data2.content;
+                this.userList = [];
+                for (const u of data2.content) {
+                  this.user = new User(u.id, u.accountName, u.userName, u.password);
+                  this.userList.push(this.user);
+                }
               },
               error2 => {
-                console.log(error2);
+
               });
         },
         error => {
           this.error = error;
-          console.log(error);
+
         });
   }
 

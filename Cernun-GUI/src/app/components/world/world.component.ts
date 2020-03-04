@@ -3,7 +3,7 @@ import { WorldService } from '../../_services/world.service';
 import { first } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { World } from 'src/app/_models/world.model';
+import { World } from '../../_models/world.model';
 
 @Component({
   selector: 'app-world',
@@ -17,6 +17,8 @@ export class WorldComponent implements OnInit {
   returnUrl: string;
   error = '';
   worldList: World[];
+  world: World;
+  success = '';
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -35,10 +37,14 @@ export class WorldComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          this.worldList = data.content;
+          this.worldList = [];
+          for (const w of data.content) {
+            this.world = new World(w.id, w.name, w.seed);
+            this.worldList.push(this.world);
+          }
         },
         error => {
-          console.log(error);
+
         });
 
     // get return url from route parameters or default to '/'
@@ -68,10 +74,15 @@ export class WorldComponent implements OnInit {
               data2 => {
                 this.submitted = false;
                 this.loading = false;
-                this.worldList = data2.content;
+                this.worldList = [];
+                for (const w of data2.content) {
+                  this.world = new World(w.id, w.name, w.seed);
+                  this.worldList.push(this.world);
+                  console.log(this.world);
+                }
               },
               error2 => {
-                console.log(error2);
+
               });
           } else {
             this.error = data.error;
@@ -85,5 +96,34 @@ export class WorldComponent implements OnInit {
 
   getAllWorld() {
     this.worldService.getAll();
+  }
+
+  onClickSuppr(id: number) {
+    console.log(id);
+    this.worldService.delete(id)
+      .pipe(first())
+      .subscribe(
+        data => {
+          console.log(data);
+          this.success = data.content;
+          this.worldService.getAll()
+            .pipe(first())
+            .subscribe(
+              data2 => {
+                this.worldList = [];
+                for (const w of data2.content) {
+                  this.world = new World(w.id, w.name, w.seed);
+                  this.worldList.push(this.world);
+                }
+              },
+              error2 => {
+                console.log(error2);
+              });
+        },
+        error => {
+          console.log(error);
+          this.error = error;
+
+        });
   }
 }
