@@ -78,7 +78,6 @@ export class WorldComponent implements OnInit {
                 for (const w of data2.content) {
                   this.world = new World(w.id, w.name, w.seed);
                   this.worldList.push(this.world);
-                  console.log(this.world);
                 }
               },
               error2 => {
@@ -99,12 +98,10 @@ export class WorldComponent implements OnInit {
   }
 
   onClickSuppr(id: number) {
-    console.log(id);
     this.worldService.delete(id)
       .pipe(first())
       .subscribe(
         data => {
-          console.log(data);
           this.success = data.content;
           this.worldService.getAll()
             .pipe(first())
@@ -117,11 +114,9 @@ export class WorldComponent implements OnInit {
                 }
               },
               error2 => {
-                console.log(error2);
               });
         },
         error => {
-          console.log(error);
           this.error = error;
 
         });
