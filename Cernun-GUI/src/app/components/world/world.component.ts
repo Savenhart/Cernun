@@ -31,11 +31,7 @@ export class WorldComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          this.worldList = [];
-          for (const w of data.content) {
-            this.world = new World(w.id, w.name, w.seed);
-            this.worldList.push(this.world);
-          }
+          this.worldList = data;
         },
         error => {
         });
@@ -64,11 +60,7 @@ export class WorldComponent implements OnInit {
                 data2 => {
                   this.submitted = false;
                   this.loading = false;
-                  this.worldList = [];
-                  for (const w of data2.content) {
-                    this.world = new World(w.id, w.name, w.seed);
-                    this.worldList.push(this.world);
-                  }
+                  this.worldList = data2;
                 },
                 error2 => {
 
@@ -83,9 +75,9 @@ export class WorldComponent implements OnInit {
         });
   }
 
-  getAllWorld() {
-    this.worldService.getAll();
-  }
+  // getAllWorld() {
+  //   this.worldService.getAll();
+  // }
 
   onClickSuppr(id: number) {
     this.worldService.delete(id)
@@ -97,11 +89,7 @@ export class WorldComponent implements OnInit {
             .pipe(first())
             .subscribe(
               data2 => {
-                this.worldList = [];
-                for (const w of data2.content) {
-                  this.world = new World(w.id, w.name, w.seed);
-                  this.worldList.push(this.world);
-                }
+                this.worldList = data2;
               },
               error2 => {
               });

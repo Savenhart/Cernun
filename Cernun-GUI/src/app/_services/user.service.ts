@@ -13,7 +13,7 @@ export class UserService {
         return this.http.get<any>(`${environment.apiUrl}/user`).pipe(map(res => {
           const userList: User[] = [];
           for (const u of res.content) {
-            userList.push(new User(u.id, u.accountName, u.userName, u.password));
+            userList.push(new User(u));
           }
           return userList;
         }));

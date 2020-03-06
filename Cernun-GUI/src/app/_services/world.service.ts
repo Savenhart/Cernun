@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
+import { World } from '../_models/world.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,14 @@ export class WorldService {
   }
 
   getAll() {
-    return this.http.get<any>(`${environment.apiUrl}/world`);
+    return this.http.get<any>(`${environment.apiUrl}/world`).pipe(map(res => {
+      const worldList: World[] = [];
+      for (const w of res.content) {
+        worldList.push(new World(w));
+      }
+      console.log(worldList);
+      return worldList;
+    }));
   }
 
   delete(id: number) {
