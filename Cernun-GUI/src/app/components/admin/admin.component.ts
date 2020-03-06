@@ -12,18 +12,18 @@ export class AdminComponent implements OnInit {
   userList: User[];
   error: string;
   success: string;
+  user: User;
 
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
     this.userService.getAll()
-      .pipe(first())
       .subscribe(
         data => {
-          this.userList = data.content;
+          this.userList = data;
         },
         error => {
-          console.log(error);
+
         });
   }
 
@@ -37,15 +37,15 @@ export class AdminComponent implements OnInit {
             .pipe(first())
             .subscribe(
               data2 => {
-                this.userList = data2.content;
+                this.userList = data2;
               },
               error2 => {
-                console.log(error2);
+
               });
         },
         error => {
           this.error = error;
-          console.log(error);
+
         });
   }
 

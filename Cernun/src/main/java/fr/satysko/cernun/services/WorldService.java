@@ -56,6 +56,7 @@ public class WorldService implements GenericServices<World> {
         if (!repository.existsById(id)){
             return false;
         }
+        repository.deleteById(id);
         return !repository.existsById(id);
     }
 

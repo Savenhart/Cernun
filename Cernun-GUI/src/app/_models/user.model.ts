@@ -7,4 +7,8 @@ export class User {
   avatar: Picture;
   // appartenances: Set<Appartenance>;
   token?: string;
+
+  constructor(obj: object) {
+    Object.assign(this, obj);
+  }
 }
