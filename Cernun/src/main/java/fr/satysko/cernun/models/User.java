@@ -1,35 +1,51 @@
 package fr.satysko.cernun.models;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Access(AccessType.FIELD)
 public class User extends Entite {
 
-    private String name;
-    private String pseudo;
+    @Column(unique = true)
+    private String accountName;
+    @Column(unique = true)
+    private String userName;
+    private String password;
 
     @OneToOne
     private Picture avatar;
-    @OneToMany(mappedBy = "world")
-    private Set<Appartenance> appartenances;
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private Set<UserWorld> userWorlds;
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private Set<Droit> droits;
 
-    public String getName() {
-        return name;
+    public String getAccountName() {
+        return accountName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
-    public String getPseudo() {
-        return pseudo;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setPseudo(String pseudo) {
-        this.pseudo = pseudo;
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Picture getAvatar() {
@@ -38,5 +54,21 @@ public class User extends Entite {
 
     public void setAvatar(Picture avatar) {
         this.avatar = avatar;
+    }
+
+    public Set<UserWorld> getUserWorlds() {
+        return userWorlds;
+    }
+
+    public void setUserWorlds(Set<UserWorld> userWorlds) {
+        this.userWorlds = userWorlds;
+    }
+
+    public Set<Droit> getDroits() {
+        return droits;
+    }
+
+    public void setDroits(Set<Droit> droits) {
+        this.droits = droits;
     }
 }

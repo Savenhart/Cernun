@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg navbar-white bg-white">
+  <img src="../../../assets/img/CernunLogo.jpg" alt="CernunLogoFullscreen" class="d-none d-lg-block" style="width: 100px;">
+  <img src="../../../assets/img/CernunLogo.jpg" alt="CernunLogoNavbar" class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation" style="width: 100px;">
+    <span class="navbar-toggler-icon"></span>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/home" routerLinkActive="active">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login" routerLinkActive="active" *ngIf="!currentUser">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/register" routerLinkActive="active" *ngIf="!currentUser">Register</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/admin" routerLinkActive="active" *ngIf="currentUser">Admin</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/world" routerLinkActive="active" *ngIf="currentUser">World</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="logout()" routerLink="/login" routerLinkActive="active" *ngIf="currentUser">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>

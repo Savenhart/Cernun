@@ -1,0 +1,74 @@
+<div class="col-md-6 offset-md-3 mt-5">
+  <div class="card">
+    <h4 class="card-header">Register</h4>
+    <div class="card-body">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="accountName">accountName</label>
+          <input
+            type="text"
+            formControlName="accountNameFc"
+            class="form-control"
+            [value]="fieldvalue"
+            (keyup)="keyup($event.target.value)"
+          />
+          <div class="invalid-feedback d-block">
+            <div *ngIf="controlAccountName(); let message">
+              {{ message }}
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="userName">userName</label>
+          <input
+            type="text"
+            formControlName="userNameFc"
+            class="form-control"
+            [value]="fieldvalue"
+            (keyup)="keyup($event.target.value)"
+          />
+          <div class="invalid-feedback d-block">
+            <div *ngIf="controlUserName(); let message">
+              {{ message }}
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            formControlName="passwordFc"
+            class="form-control"
+          />
+          <div
+            class="invalid-feedback d-block"
+            *ngIf="controlPassword(); let message"
+          >
+            {{ message }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="passwordVerif">Password verification</label>
+          <input
+            type="password"
+            formControlName="passwordVerifFc"
+            class="form-control"
+          />
+          <div class="invalid-feedback d-block">
+            <div *ngIf="controlPasswordVerif(); let message">{{ message }}</div>
+          </div>
+        </div>
+        <button [disabled]="loading" class="btn btn-primary">
+          <span
+            *ngIf="loading"
+            class="spinner-border spinner-border-sm mr-1"
+          ></span>
+          Register
+        </button>
+        <div *ngIf="error" class="alert alert-danger mt-3 mb-0">
+          {{ error }}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

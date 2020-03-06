@@ -19,7 +19,7 @@ public class Creature extends Entite {
     @OneToOne
     private Picture picture;
     @ManyToOne
-    private Appartenance appartenance;
+    private UserWorld userWorld;
 
     public Creature() {}
 

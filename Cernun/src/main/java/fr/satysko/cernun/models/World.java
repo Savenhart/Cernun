@@ -1,5 +1,6 @@
 package fr.satysko.cernun.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.satysko.cernun.utils.OpenSimplexNoise;
 
 import javax.persistence.*;
@@ -12,21 +13,28 @@ import java.util.Set;
 @Entity
 public class World extends Entite {
 
+    @Column(unique = true)
     private String name;
     private long seed;
 
     @OneToMany(mappedBy = "world", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonIgnore
     private Set<Cell> cellsSet = new HashSet<>();
     @OneToMany(mappedBy = "world", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonIgnore
     private Set<Food> foodsSet = new HashSet<>();
     @OneToMany(mappedBy = "world", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
-    private Set<Appartenance> appartenances;
+    @JsonIgnore
+    private Set<UserWorld> userWorlds;
 
     @Transient
+    @JsonIgnore
     private Map<Location, Cell> cells = new HashMap<>();
     @Transient
+    @JsonIgnore
     private Map<Location, Food> foods = new HashMap<>();
     @Transient
+    @JsonIgnore
     OpenSimplexNoise oNoise;
 
 
@@ -38,7 +46,7 @@ public class World extends Entite {
         oNoise = new OpenSimplexNoise(seed);
     }
 
-    public void genCell(int x, int y) {
+    public Cell genCell(int x, int y) {
         Location k = new Location();
         k.setPos(new Vector2d(x, y));
         //Génération du bruit pour l'élévation en fonction des coordonnées
@@ -51,6 +59,7 @@ public class World extends Entite {
         c.setWorld(this);
         c.setLocation(k);
         cells.put(k, c);
+        return c;
     }
 
     public String getName() {
@@ -69,12 +78,12 @@ public class World extends Entite {
         this.seed = seed;
     }
 
-    public Set<Appartenance> getAppartenances() {
-        return appartenances;
+    public Set<UserWorld> getUserWorlds() {
+        return userWorlds;
     }
 
-    public void setAppartenances(Set<Appartenance> appartenances) {
-        this.appartenances = appartenances;
+    public void setUserWorlds(Set<UserWorld> userWorlds) {
+        this.userWorlds = userWorlds;
     }
 
     public Map<Location, Cell> getCells() {
@@ -95,6 +104,7 @@ public class World extends Entite {
 
     @PostLoad
     private void postLoad(){
+        oNoise = new OpenSimplexNoise(seed);
         for (Cell c : cellsSet) {
             cells.put(c.getLocation(), c);
         }
