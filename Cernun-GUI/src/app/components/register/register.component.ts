@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { first } from 'rxjs/operators';
 import { RegisterService } from '../../_services/register.service';
-import { PasswordMatchValidator } from '../../validators/password-match-validator.validator';
+import { RegisterValidator } from 'src/app/validators/register-validator.validator';
 
 @Component({
   selector: 'app-register',
@@ -38,7 +38,7 @@ export class RegisterComponent implements OnInit {
     this.accountName = new FormControl('', Validators.required),
     this.userName = new FormControl('', Validators.required),
     this.password = new FormControl('', [Validators.required, Validators.minLength(8)]),
-    this.passwordVerif = new FormControl('', [Validators.required, Validators.minLength(8)]),
+    this.passwordVerif = new FormControl('', [Validators.required]),
     this.registerForm = this.formBuilder.group({
         accountNameFc: this.accountName,
         passwordFc: this.password,
@@ -48,7 +48,8 @@ export class RegisterComponent implements OnInit {
       },
         {
           validators:
-            [PasswordMatchValidator.mustMatch()]
+            [RegisterValidator.mustMatch(),
+            RegisterValidator.mustDiff()]
         }
       );
 
@@ -62,6 +63,9 @@ export class RegisterComponent implements OnInit {
       if (this.accountName.hasError('required')) {
         return `Le nom de compte est requis`;
       }
+      if (this.registerForm.hasError('must_diff')) {
+        return `Le nom de compte doit être différent de celui d'utilisateur`;
+      }
     }
     return false;
   }
@@ -71,6 +75,9 @@ export class RegisterComponent implements OnInit {
 
       if (this.userName.hasError('required')) {
         return `Le nom d'utilisateur est requis`;
+      }
+      if (this.registerForm.hasError('must_diff')) {
+        return `Le nom d'utilisateur doit être différent de celui du compte`;
       }
     }
     return false;
@@ -86,16 +93,12 @@ export class RegisterComponent implements OnInit {
       if (this.password.hasError('required')) {
         return `Le mot de passe est requis`;
       }
-      if (this.registerForm.hasError('must_match')) {
-        return `Les mots de passe sont différents`;
-      }
     }
     return false;
   }
 
   controlPasswordVerif(): string | false {
     if (this.passwordVerif.touched) {
-      console.log("test5");
       if (this.passwordVerif.hasError('required')) {
         return `Le mot de passe est requis`;
       }
@@ -105,9 +108,6 @@ export class RegisterComponent implements OnInit {
     }
     return false;
   }
-
-
-
   // convenience getter for easy access to form fields
   get f() { return this.registerForm.controls; }
 

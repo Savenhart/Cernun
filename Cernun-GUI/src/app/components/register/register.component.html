@@ -9,17 +9,11 @@
             type="text"
             formControlName="accountNameFc"
             class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.accountNameFc.errors }"
             [value]="fieldvalue"
             (keyup)="keyup($event.target.value)"
           />
-          <div
-            *ngIf="submitted && f.accountNameFc.errors"
-            class="invalid-feedback"
-          >
-            <div *ngIf="controlAccountName(); let message;">
+            <div class="invalid-feedback d-block" *ngIf="controlAccountName(); let message;">
               {{message}}
-            </div>
           </div>
         </div>
         <div class="form-group">
@@ -28,13 +22,11 @@
             type="text"
             formControlName="userNameFc"
             class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.userNameFc.errors }"
             [value]="fieldvalue"
             (keyup)="keyup($event.target.value)"
           />
-          <div *ngIf="submitted && f.userNameFc.errors" class="invalid-feedback">
-            <div *ngIf="controlUserName();let message">{{ message }}</div>
-          </div>
+            <div class="invalid-feedback d-block" *ngIf="controlUserName();let message">{{ message }}</div>
+
         </div>
         <div class="form-group">
           <label for="password">Password</label>
@@ -42,11 +34,9 @@
             type="password"
             formControlName="passwordFc"
             class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.passwordFc.errors }"
           />
-          <div *ngIf="submitted &&  f.passwordFc.errors" class="invalid-feedback">
-            <div *ngIf="controlPassword(); let message;">{{ message }}</div>
-          </div>
+            <div class="invalid-feedback d-block" *ngIf="controlPassword(); let message;">{{ message }}</div>
+
         </div>
         <div class="form-group">
           <label for="passwordVerif">Password verification</label>
@@ -54,15 +44,9 @@
             type="password"
             formControlName="passwordVerifFc"
             class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.passwordVerifFc.errors }"
           />
-          <div
-            *ngIf="submitted && f.passwordVerifFc.errors"
-            class="invalid-feedback"
-          >
-            <div *ngIf="controlPasswordVerif(); let message">{{ message }}</div>
+            <div class="invalid-feedback d-block" *ngIf="controlPasswordVerif(); let message">{{ message }}</div>
           </div>
-        </div>
         <button [disabled]="loading" class="btn btn-primary">
           <span
             *ngIf="loading"

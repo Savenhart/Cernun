@@ -20,12 +20,7 @@ export class AdminComponent implements OnInit {
     this.userService.getAll()
       .subscribe(
         data => {
-          this.userList = [];
-          for (const u of data.content) {
-            this.user = new User(u.id, u.accountName, u.userName, u.password);
-            this.userList.push(this.user);
-          }
-
+          this.userList = data;
         },
         error => {
 
@@ -42,11 +37,7 @@ export class AdminComponent implements OnInit {
             .pipe(first())
             .subscribe(
               data2 => {
-                this.userList = [];
-                for (const u of data2.content) {
-                  this.user = new User(u.id, u.accountName, u.userName, u.password);
-                  this.userList.push(this.user);
-                }
+                this.userList = data2;
               },
               error2 => {
 
