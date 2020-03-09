@@ -2,6 +2,7 @@ import { Picture } from './picture.model';
 import { UserWorld } from './user-world.model';
 
 export class Creature {
+  id: number;
   name: string;
   speed: number;
   energy: number;

@@ -1,4 +1,5 @@
 export class Picture {
+  id: number;
   name: string;
   ipath: string;
   extension: string;

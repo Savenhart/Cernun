@@ -4,6 +4,7 @@ import { Biome } from './biome.model';
 import { Picture } from './picture.model';
 
 export class Cell {
+  id: number;
   world: World;
   location: Location;
   biome: Biome;
