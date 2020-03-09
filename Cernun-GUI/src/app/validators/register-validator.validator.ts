@@ -10,7 +10,7 @@ export class RegisterValidator {
 
   public static mustDiff(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      return control.get(`accountNameFc`).value === control.get(`userNameFc`).value ? {must_diff: control} : null;
+      return control.get(`emailFc`).value === control.get(`userNameFc`).value ? {must_diff: control} : null;
     };
   }
 }

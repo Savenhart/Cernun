@@ -10,7 +10,7 @@ import java.util.Set;
 public class User extends Entite {
 
     @Column(unique = true)
-    private String accountName;
+    private String email;
     @Column(unique = true)
     private String userName;
     private String password;
@@ -24,12 +24,12 @@ public class User extends Entite {
     @JsonIgnore
     private Set<Droit> droits;
 
-    public String getAccountName() {
-        return accountName;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUserName() {

@@ -18,7 +18,7 @@ export class RegisterComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error = '';
-  accountName: FormControl;
+  email: FormControl;
   password: FormControl;
   passwordVerif: FormControl;
   userName: FormControl;
@@ -35,16 +35,15 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.accountName = new FormControl('', Validators.required),
+    this.email = new FormControl('', [Validators.required, Validators.email]),
     this.userName = new FormControl('', Validators.required),
     this.password = new FormControl('', [Validators.required, Validators.minLength(8)]),
     this.passwordVerif = new FormControl('', [Validators.required]),
     this.registerForm = this.formBuilder.group({
-        accountNameFc: this.accountName,
+        emailFc: this.email,
         passwordFc: this.password,
         passwordVerifFc: this.passwordVerif,
         userNameFc: this.userName,
-       /* email: ['', [Validators.email, Validators.required]]*/
       },
         {
           validators:
@@ -57,14 +56,17 @@ export class RegisterComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }
 
-  controlAccountName(): string | false {
-    if (this.accountName.touched) {
+  controlEmail(): string | false {
+    if (this.email.touched) {
 
-      if (this.accountName.hasError('required')) {
+      if (this.email.hasError('required')) {
         return `Le nom de compte est requis`;
       }
       if (this.registerForm.hasError('must_diff')) {
         return `Le nom de compte doit être différent de celui d'utilisateur`;
+      }
+      if (this.email.hasError('email')) {
+        return `Vous devez entrer une adresse email valide`;
       }
     }
     return false;
@@ -119,7 +121,7 @@ export class RegisterComponent implements OnInit {
     }
     this.loading = true;
 
-    this.registerService.register(this.f.accountNameFc.value, this.f.passwordFc.value, this.f.userNameFc.value)
+    this.registerService.register(this.f.emailFc.value, this.f.passwordFc.value, this.f.userNameFc.value)
       .pipe(first())
       .subscribe(
         data => {

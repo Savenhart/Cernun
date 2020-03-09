@@ -7,7 +7,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let user of userList">
-      <td scope="row"> {{ user.accountName}} </td>
+      <td scope="row"> {{ user.email}} </td>
       <td> {{ user.userName}} </td>
       <td> <button type="button" class="btn btn-danger" (click)="onClickSuppr(user.id)">Supprimer</button> </td>
     </tr>

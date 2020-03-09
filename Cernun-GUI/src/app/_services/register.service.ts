@@ -17,8 +17,8 @@ export class RegisterService {
     this.newUser = this.newUserSubject.asObservable();
   }
 
-  register(accountName: string, password: string, userName: string) {
-    return this.http.post<any>(`${environment.apiUrl}/user/create`, { accountName, password, userName })
+  register(email: string, password: string, userName: string) {
+    return this.http.post<any>(`${environment.apiUrl}/user/create`, { email, password, userName })
       .pipe(map(user => {
         if (user.statusHttp === 200) {
           localStorage.setItem('currentUser', JSON.stringify(user));

@@ -1,7 +1,7 @@
 import { Picture } from './picture.model';
 export class User {
   id: number;
-  accountName: string;
+  email: string;
   userName: string;
   password: string;
   avatar: Picture;

@@ -8,4 +8,8 @@ export class Cell {
   location: Location;
   biome: Biome;
   picture: Picture;
+
+  constructor(obj: object) {
+    Object.assign(this, obj);
+  }
 }
