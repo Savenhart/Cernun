@@ -3,6 +3,8 @@ package fr.satysko.cernun.services;
 import fr.satysko.cernun.exceptions.WorldException;
 import fr.satysko.cernun.interfaces.GenericServices;
 import fr.satysko.cernun.models.Cell;
+import fr.satysko.cernun.models.Location;
+import fr.satysko.cernun.models.RestResponse;
 import fr.satysko.cernun.models.World;
 import fr.satysko.cernun.repositories.CellRepository;
 import fr.satysko.cernun.repositories.WorldRepository;

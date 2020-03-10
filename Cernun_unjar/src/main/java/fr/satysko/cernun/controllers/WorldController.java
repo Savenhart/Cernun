@@ -1,10 +1,11 @@
 package fr.satysko.cernun.controllers;
 
+import fr.satysko.cernun.exceptions.UserException;
 import fr.satysko.cernun.exceptions.WorldException;
 import fr.satysko.cernun.models.Cell;
-import fr.satysko.cernun.models.Location;
 import fr.satysko.cernun.models.RestResponse;
 import fr.satysko.cernun.models.World;
+import fr.satysko.cernun.models.Location;
 import fr.satysko.cernun.services.WorldService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
