@@ -19,6 +19,7 @@ export class WorldScreenComponent implements OnInit {
           p.setup = () => {
             const cnv = p.createCanvas(p.windowWidth, p.windowHeight);
             cnv.style('display', 'block');
+            cnv.class('img-responsive');
 
             cnv.parent('world');
           };
