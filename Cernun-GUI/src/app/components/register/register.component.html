@@ -4,16 +4,16 @@
     <div class="card-body">
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-          <label for="accountName">accountName</label>
+          <label for="email">email</label>
           <input
             type="text"
-            formControlName="accountNameFc"
+            formControlName="emailFc"
             class="form-control"
             [value]="fieldvalue"
             (keyup)="keyup($event.target.value)"
           />
           <div class="invalid-feedback d-block">
-            <div *ngIf="controlAccountName(); let message">
+            <div *ngIf="controlEmail(); let message">
               {{ message }}
             </div>
           </div>

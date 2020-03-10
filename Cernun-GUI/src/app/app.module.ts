@@ -15,6 +15,7 @@ import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { AdminComponent } from './components/admin/admin.component';
 import { WorldComponent } from './components/world/world.component';
 import { CreditsComponent } from './components/credits/credits.component';
+import { WorldScreenComponent } from './components/world-screen/world-screen.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { CreditsComponent } from './components/credits/credits.component';
     AdminComponent,
     WorldComponent,
     CreditsComponent,
+    WorldScreenComponent,
   ],
   imports: [
     BrowserModule,

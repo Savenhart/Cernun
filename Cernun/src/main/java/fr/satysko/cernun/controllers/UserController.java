@@ -90,7 +90,7 @@ public class UserController {
         return response;
     }
 
-    //Vérifie la présence d'un utilisateur possedant un username ou AccountName
+    //Vérifie la présence d'un utilisateur possedant un username ou email
     @GetMapping("/verify/{name}")
     public RestResponse<String> verifyName(@PathVariable("name") String name){
         RestResponse<String> response;
@@ -111,9 +111,9 @@ public class UserController {
     public RestResponse<User> create(@RequestBody User u){
         RestResponse<User> response;
         try {
-            if(u.getAccountName().equals(u.getUserName())) {
+            if(u.getEmail().equals(u.getUserName())) {
                 response = new RestResponse<>(new UserException("Les champs nom d'utilisateur et nom de compte doivent être différents"), 204);
-            }else if(!userService.verify(u.getUserName()) || !userService.verify(u.getAccountName())){
+            }else if(!userService.verify(u.getUserName()) || !userService.verify(u.getEmail())){
                 response = new RestResponse<>(new UserException("Le champ nom d'utilisateur ou nom de compte sont déjà utilisés"), 204);
             }else {
                 User user = userService.create(u);
@@ -137,7 +137,7 @@ public class UserController {
     public RestResponse<User> update(@RequestBody User u){
         RestResponse<User> response;
         try {
-            if(u.getAccountName().equals(u.getUserName())){
+            if(u.getEmail().equals(u.getUserName())){
                 response = new RestResponse<User>(new UserException("Les champs nom d'utilisateur et nom de compte doivent être différents"), 204);
             }else {
                 User user = userService.update(u);

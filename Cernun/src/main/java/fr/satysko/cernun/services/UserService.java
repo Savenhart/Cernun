@@ -51,7 +51,7 @@ public class UserService implements GenericServices<User> {
     }
 
     public User connect(User u) {
-        return repository.findByAccountNameAndPassword(u.getAccountName(), u.getPassword());
+        return repository.findByEmailAndPassword(u.getEmail(), u.getPassword());
     }
 
     public boolean verify(String name) {

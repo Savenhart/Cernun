@@ -1,14 +1,13 @@
 import { World } from './world.model';
-import { Location } from './location.model';
-import { Biome } from './biome.model';
 import { Picture } from './picture.model';
-
-export class Cell {
+import { Location } from './location.model';
+export class Food {
   id: number;
   world: World;
-  location: Location;
-  biome: Biome;
+  energy: number;
+  isMeat: boolean;
   picture: Picture;
+  location: Location;
 
   constructor(obj: object) {
     Object.assign(this, obj);
