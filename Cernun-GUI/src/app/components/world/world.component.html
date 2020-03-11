@@ -27,7 +27,7 @@
   </div>
 </div>
 <ul>
-  <li *ngFor="let world of worldList"><a class="nav-link" routerLink="/worldScreen" routerLinkActive="active"> {{ world.name}} </a>{{ world.seed }}
+  <li *ngFor="let world of worldList"><a class="nav-link" routerLink="/worldScreen" [queryParams]="{id: world.id}" routerLinkActive="active"> {{ world.name}} </a>{{ world.seed }}
 
   <button type="button" class="btn btn-danger" (click)="onClickSuppr(world.id)">Supprimer</button>
 
