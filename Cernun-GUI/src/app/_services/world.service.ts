@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { World } from '../_models/world.model';
+import { Location } from '../_models/location.model';
+import { Cell } from '../_models/cell.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +28,6 @@ export class WorldService {
       for (const w of res.content) {
         worldList.push(new World(w));
       }
-      console.log(worldList);
       return worldList;
     }));
   }
@@ -34,6 +35,16 @@ export class WorldService {
   delete(id: number) {
     return this.http.delete<any>(`${environment.apiUrl}/world/${id}`).pipe(map(res => {
       return res;
+    }));
+  }
+
+  getOrGenerateWorldCell(id: number, pos: Location, scale: number) {
+    return this.http.post<any>(`${environment.apiUrl}/world/grid/${id}/${scale}`, {pos}).pipe(map(res => {
+      const gridCell = new Set<Cell>();
+      for (const c of res.content) {
+        gridCell.add(new Cell(c));
+      }
+      return gridCell;
     }));
   }
 }
