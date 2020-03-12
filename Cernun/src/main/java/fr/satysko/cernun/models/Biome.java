@@ -1,11 +1,9 @@
 package fr.satysko.cernun.models;
 
 import fr.satysko.cernun.utils.EBiome;
+import fr.satysko.cernun.utils.OpenSimplexNoise;
 
-import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 @Embeddable
 public class Biome {
@@ -175,6 +173,11 @@ public class Biome {
 				biome = EBiome.BANQUISE;
 			}
 		}
+	}
+
+	@PostLoad
+	private void postLoad(){
+		path = biome.getPath();
 	}
 
 	@Override

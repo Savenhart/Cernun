@@ -41,8 +41,8 @@ public class Cell extends Entite {
 		this.location = location;
 	}
 
-	public String getBiome() {
-		return biome.getBiome();
+	public Biome getBiome() {
+		return biome;
 	}
 
 	public void setBiome(Biome biome) {
