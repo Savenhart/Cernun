@@ -21,7 +21,7 @@ public class WorldController {
 
     //Liste tous les mondes
     @GetMapping({"", "/", "/all"})
-    public RestResponse<List<World>> getAllUsers(){
+    public RestResponse<List<World>> getAllWorld(){
         RestResponse<List<World>> response;
         try{
             List<World> worlds = worldService.findAll();

@@ -23,7 +23,7 @@ public enum EBiome {
 	DESERTGLACE("Désert glacé", ""),
 	STEPPE("Steppe", ""),
 	PAMPA("Pampa", ""),
-	DESERT("Désert", ""),
+	DESERT("Desert", ""),
 	HAUTPLATEAU("Haut plateau", ""),
 	HAUTEFORETENNEIGEE("Haute forêt enneigée", ""),
 	PLATEAUENNEIGEE("Plateau enneigé", ""),
@@ -53,8 +53,17 @@ public enum EBiome {
 		return this.path;
 	}
 
-	private EBiome(final String name, final String path) {
+	EBiome(final String name, final String path) {
 		this.name = name;
 		this.path = path;
+	}
+
+	public static EBiome valueOfByName(String key) throws IllegalArgumentException{
+		for(EBiome val : values()){
+			if(val.getName().equals(key)){
+				return val;
+			}
+		}
+		throw new IllegalArgumentException("Il n'y a pas de biome nommé " + key);
 	}
 }
