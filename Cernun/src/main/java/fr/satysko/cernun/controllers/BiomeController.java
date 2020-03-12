@@ -1,9 +1,7 @@
 package fr.satysko.cernun.controllers;
 
-import fr.satysko.cernun.exceptions.WorldException;
 import fr.satysko.cernun.models.Biome;
 import fr.satysko.cernun.models.RestResponse;
-import fr.satysko.cernun.models.World;
 import fr.satysko.cernun.services.BiomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +29,8 @@ public class BiomeController {
         return response;
     }
 
-    //Retourne un monde par sa clef
-    @GetMapping("/find/{key}")
+    //Retourne un biome par sa clef
+    @GetMapping("/{key}")
     public RestResponse<Biome> findByKey(@PathVariable("key") String key){
         RestResponse<Biome> response = null;
         try{
