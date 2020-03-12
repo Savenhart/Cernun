@@ -5,16 +5,41 @@ import fr.satysko.cernun.utils.EBiome;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Transient;
 
 @Embeddable
 public class Biome {
 
 	@Enumerated(EnumType.STRING)
 	EBiome biome;
+	@Transient
+	String path;
 
 	public Biome(){}
 
 	public Biome (float niv, float hum, float tem) {
+		defineBiome(niv, hum, tem);
+		path = biome.getPath();
+	}
+
+	public String getBiome() {
+		return biome.getName();
+	}
+
+	public void setBiome(String key) {
+		biome = EBiome.valueOfByName(key);
+		path = biome.getPath();
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public void defineBiome(float niv, float hum, float tem){
 		if (niv > 0.85){
 			if(tem > 0.8){
 				biome = EBiome.VOLCAN;
@@ -151,8 +176,9 @@ public class Biome {
 			}
 		}
 	}
-		
-	public String getBiome() {
-		return biome.getName();
+
+	@Override
+	public String toString() {
+		return "Biome " + biome + " path : " + path;
 	}
 }
