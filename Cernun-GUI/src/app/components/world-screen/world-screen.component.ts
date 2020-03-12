@@ -52,7 +52,7 @@ export class WorldScreenComponent implements OnInit {
         p.draw = () => {
           p.background(255);
           for (const elem of this.gridList) {
-            p.fill(Math.floor(Math.random() * (256)), Math.floor(Math.random() * (256)),Math.floor(Math.random() * (256)));
+            p.fill(elem.biome.path);
             p.rect(elem.location.posX * 25, elem.location.posY * 25, 25, 25);
           }
         };
