@@ -25,7 +25,6 @@ class World{
     float niv1 = (float) (0.5 * oNoise.eval(x / 10.0, y / 10.0) * niv0);
     float niv2 = (float) (0.25 * oNoise.eval(x / 5.0, y / 5.0) * (niv0 + niv1));
     float niv = niv0 + niv1 + niv2;
-    //float niv = (float) (oNoise.eval(x / 20.0, y / 20.0) + 0.5 * oNoise.eval(x / 10.0, y / 10.0) + 0.25 * oNoise.eval(x / 5.0, y / 5.0));
     
     float hum0 = (float) oNoise.eval(x / 60.0, y / 60.0);
     float hum1 = (float) (0.5 * oNoise.eval(x / 30.0, y / 30.0) * hum0);

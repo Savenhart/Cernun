@@ -1,59 +1,59 @@
 package fr.satysko.cernun.utils;
 
 public enum EBiome {
-	OCEAN("Ocean", "blue"),
-	OCEANTROPICAL("Ocean tropical", "aqua"),
-	BANQUISE("Banquise", "cyan"),
-	PLAGE("Plage", "yellow"),
-	PLAGEGLACE("Plage glacée", "yellow"),
-	PLAGETROPICALE("Plage tropicale", "yellow"),
-	MARAIS("Marais", "brown"),
-	MARAISGLACE("Marais glacé", "brown"),
-	MARAISTROPICAL("Marais tropical", "brown"),
-	INLANDSIS("Inlandsis", "floralwhite"),
-	FORET("Forêt", "forestgreen"),
-	MANGROVE("Mangrove", "firebrick"),
-	PERMAFROST("Permafrost", "deepskyblue"),
-	FORETTROPICALE("Forêt tropicale", "green"),
-	JUNGLE("Jungle", "green"),
-	TOUNDRA("Toundra", "green"),
-	TAIGA("Taiga", "green"),
-	PLAINE("Plaine", "green"),
-	SAVANE("Savane", "yellow"),
-	DESERTGLACE("Désert glacé", "floralwhite"),
-	STEPPE("Steppe", "gold"),
-	PAMPA("Pampa", "goldrod"),
-	DESERT("Desert", "yellow"),
-	HAUTPLATEAU("Haut plateau", "red"),
-	HAUTEFORETENNEIGEE("Haute forêt enneigée", "gray"),
-	PLATEAUENNEIGEE("Plateau enneigé", "gray"),
-	PLATEAUROCHEUXENNEIGE("Plateau rocheux enneigé", "gray"),
-	HAUTEJUNGLE("Haute jungle", "lightgren"),
-	PLATEAUROCHEUX("Plateau rocheux", "lightyellow"),
-	HAUTEFORET("Haute forêt", "lime"),
-	PLATEAUVOLVANIQUE("Plateau volcanique", "limegreen"),
-	MONTAGNE("Montagne", "linen"),
-	MONTAGNEFORETENNEIGEE("Montagne forêt enneigée", "magenta"),
-	MONTAGNEENNEIGEE("Montagne enneigée", "maroon"),
-	MONTAGNEROCHEUSEENNEIGEE("Montagne rocheuse enneigée", "mediumaquamarine"),
-	MONTAGNEJUNGLE("Montagne jungle", "mediumblue"),
-	MONTAGNEROCHEUSE("Montagne rocheuse", "mediumorchid"),
-	MONTAGNEFORET("Montagne forêt", "mediumpurple"),
-	VOLCAN("Volcan", "mediumseagreen"),
+	OCEAN("Ocean", new String[] {"blue"}),
+	OCEANTROPICAL("Ocean tropical", new String[] {"aqua"}),
+	BANQUISE("Banquise", new String[] {"cyan"}),
+	PLAGE("Plage", new String[] {"yellow"}),
+	PLAGEGLACE("Plage glacée", new String[] {"yellow"}),
+	PLAGETROPICALE("Plage tropicale", new String[] {"yellow"}),
+	MARAIS("Marais", new String[] {"brown"}),
+	MARAISGLACE("Marais glacé", new String[] {"brown"}),
+	MARAISTROPICAL("Marais tropical", new String[] {"brown"}),
+	INLANDSIS("Inlandsis", new String[] {"floralwhite"}),
+	FORET("Forêt", new String[] {"forestgreen"}),
+	MANGROVE("Mangrove", new String[] {"firebrick"}),
+	PERMAFROST("Permafrost", new String[] {"deepskyblue"}),
+	FORETTROPICALE("Forêt tropicale", new String[] {"green"}),
+	JUNGLE("Jungle", new String[] {"green"}),
+	TOUNDRA("Toundra", new String[] {"green"}),
+	TAIGA("Taiga", new String[] {"green"}),
+	PLAINE("Plaine", new String[] {"green"}),
+	SAVANE("Savane", new String[] {"yellow"}),
+	DESERTGLACE("Désert glacé", new String[] {"floralwhite"}),
+	STEPPE("Steppe", new String[] {"gold"}),
+	PAMPA("Pampa", new String[] {"goldrod"}),
+	DESERT("Desert", new String[] {"yellow"}),
+	HAUTPLATEAU("Haut plateau", new String[] {"red"}),
+	HAUTEFORETENNEIGEE("Haute forêt enneigée", new String[] {"gray"}),
+	PLATEAUENNEIGEE("Plateau enneigé", new String[] {"gray"}),
+	PLATEAUROCHEUXENNEIGE("Plateau rocheux enneigé", new String[] {"gray"}),
+	HAUTEJUNGLE("Haute jungle", new String[] {"lightgren"}),
+	PLATEAUROCHEUX("Plateau rocheux", new String[] {"lightyellow"}),
+	HAUTEFORET("Haute forêt", new String[] {"lime"}),
+	PLATEAUVOLVANIQUE("Plateau volcanique", new String[] {"limegreen"}),
+	MONTAGNE("Montagne", new String[] {"linen"}),
+	MONTAGNEFORETENNEIGEE("Montagne forêt enneigée", new String[] {"magenta"}),
+	MONTAGNEENNEIGEE("Montagne enneigée", new String[] {"maroon"}),
+	MONTAGNEROCHEUSEENNEIGEE("Montagne rocheuse enneigée", new String[] {"mediumaquamarine"}),
+	MONTAGNEJUNGLE("Montagne jungle", new String[] {"mediumblue"}),
+	MONTAGNEROCHEUSE("Montagne rocheuse", new String[] {"mediumorchid"}),
+	MONTAGNEFORET("Montagne forêt", new String[] {"mediumpurple"}),
+	VOLCAN("Volcan", new String[] {"mediumseagreen"}),
 	;
 
 	private String name;
-	private String path;
+	private String[] path;
 
 	public String getName(){
 		return this.name;
 	}
 
-	public String getPath(){
+	public String[] getPath(){
 		return this.path;
 	}
 
-	EBiome(final String name, final String path) {
+	EBiome(final String name, final String[] path) {
 		this.name = name;
 		this.path = path;
 	}
