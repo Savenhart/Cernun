@@ -87,10 +87,11 @@ public class WorldService implements GenericServices<World> {
                 ){
                     int nx = x + dx;
                     int ny = y + dy;
-                    if(!cRepository.exist(world.getId(), nx, ny)){
-                        cRepository.save(world.genCell(nx, ny));
+                    Cell c = cRepository.findPos(id, nx, ny);
+                    if(c == null){
+                        c = cRepository.save(world.genCell(nx, ny));
                     }
-                    grid.add(cRepository.findPos(id, nx, ny));
+                    grid.add(c);
                 }
             }
         }

@@ -9,6 +9,8 @@ import fr.satysko.cernun.services.WorldService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -141,6 +143,7 @@ public class WorldController {
     //Retrouve toutes les cellules d'un monde autour d'une position
     @PostMapping("/grid/{id}/{scale}")
     public RestResponse<List<Cell>> getGridLocation(@PathVariable("id") int id, @RequestBody Location pos, @PathVariable("scale") int scale){
+        System.out.println(LocalDateTime.now() + "in");
         RestResponse<List<Cell>> response = null;
         try {
             List<Cell> grid = worldService.findAllCell(id, pos.getPosX(), pos.getPosY(), scale);
@@ -151,13 +154,8 @@ public class WorldController {
             response = new RestResponse<>(e, 400);
             throw e;
         }
+        System.out.println(LocalDateTime.now() + " out");
         return response;
     }
-
-    //Ajoute l'image
-//    @PostMapping(value="/upload/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public Picture uploadFile(@PathVariable("id") int id, @RequestParam(name="monument_file") MultipartFile file) throws IOException {
-//        return userService.uploadFile(id, file);
-//    }
 
 }

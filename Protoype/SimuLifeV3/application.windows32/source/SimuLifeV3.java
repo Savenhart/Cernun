@@ -19,7 +19,7 @@ import java.io.InputStream;
 import java.io.OutputStream; 
 import java.io.IOException; 
 
-public class SimuLifeV2 extends PApplet {
+public class SimuLifeV3 extends PApplet {
 
 
 
@@ -164,7 +164,7 @@ public void keyReleased(){
 }
 class Biome{
   
-  SimuLifeV2.biomes biome; 
+  SimuLifeV3.biomes biome; 
   
   public Biome(float niv, float hum, float tem){
     if (niv > 0.85f){
@@ -304,7 +304,7 @@ class Biome{
     }
   }
   
-  public SimuLifeV2.biomes getBiome(){
+  public SimuLifeV3.biomes getBiome(){
     return biome;
   }
   
@@ -480,7 +480,6 @@ class World{
     float niv1 = (float) (0.5f * oNoise.eval(x / 10.0f, y / 10.0f) * niv0);
     float niv2 = (float) (0.25f * oNoise.eval(x / 5.0f, y / 5.0f) * (niv0 + niv1));
     float niv = niv0 + niv1 + niv2;
-    //float niv = (float) (oNoise.eval(x / 20.0, y / 20.0) + 0.5 * oNoise.eval(x / 10.0, y / 10.0) + 0.25 * oNoise.eval(x / 5.0, y / 5.0));
     
     float hum0 = (float) oNoise.eval(x / 60.0f, y / 60.0f);
     float hum1 = (float) (0.5f * oNoise.eval(x / 30.0f, y / 30.0f) * hum0);
@@ -539,7 +538,7 @@ class World{
 }
   public void settings() {  size(900, 600); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "SimuLifeV2" };
+    String[] appletArgs = new String[] { "SimuLifeV3" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {

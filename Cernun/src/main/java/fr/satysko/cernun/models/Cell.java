@@ -2,10 +2,8 @@ package fr.satysko.cernun.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.annotation.PostConstruct;
+import javax.persistence.*;
 
 @Entity
 public class Cell extends Entite {
@@ -55,5 +53,19 @@ public class Cell extends Entite {
 
 	public void setPicture(Picture picture) {
 		this.picture = picture;
+	}
+
+	@PostLoad
+	@PostConstruct
+	private void postLoad(){
+//		if(picture == null){
+//			picture = new Picture();
+//			if(biome.getPath() == null){
+//				biome.definePath();
+//			}
+//			picture.setName(biome.getBiome());
+//			picture.setIpath(biome.getPath());
+//			picture.setExtension("png");
+//		}
 	}
 }

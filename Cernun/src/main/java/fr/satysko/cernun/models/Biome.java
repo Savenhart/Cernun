@@ -3,7 +3,9 @@ package fr.satysko.cernun.models;
 import fr.satysko.cernun.utils.EBiome;
 import fr.satysko.cernun.utils.OpenSimplexNoise;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
+import java.util.Random;
 
 @Embeddable
 public class Biome {
@@ -17,7 +19,6 @@ public class Biome {
 
 	public Biome (float niv, float hum, float tem) {
 		defineBiome(niv, hum, tem);
-		path = biome.getPath();
 	}
 
 	public String getBiome() {
@@ -26,7 +27,6 @@ public class Biome {
 
 	public void setBiome(String key) {
 		biome = EBiome.valueOfByName(key);
-		path = biome.getPath();
 	}
 
 	public String getPath() {
@@ -175,9 +175,18 @@ public class Biome {
 		}
 	}
 
+	public void definePath(){
+		String[] lstPath = biome.getPath();
+		int index = new Random().nextInt(lstPath.length);
+		path = lstPath[index];
+	}
+
 	@PostLoad
+	@PostConstruct
 	private void postLoad(){
-		path = biome.getPath();
+		if(path == null) {
+			definePath();
+		}
 	}
 
 	@Override
