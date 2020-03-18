@@ -39,7 +39,9 @@ export class WorldService {
   }
 
   getOrGenerateWorldCell(id: number, pos: Location, scale: number) {
-    return this.http.post<any>(`${environment.apiUrl}/world/grid/${id}/${scale}`, {pos}).pipe(map(res => {
+    const posX = pos.posX;
+    const posY = pos.posY;
+    return this.http.post<any>(`${environment.apiUrl}/world/grid/${id}/${scale}`, {posX, posY}).pipe(map(res => {
       const gridCell = new Set<Cell>();
       for (const c of res.content) {
         gridCell.add(new Cell(c));

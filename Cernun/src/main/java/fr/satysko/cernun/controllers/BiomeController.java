@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/biome")
-@CrossOrigin(origins = {"*"})
+@CrossOrigin
 public class BiomeController {
 
     @Autowired

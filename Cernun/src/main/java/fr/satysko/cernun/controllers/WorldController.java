@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/world")
-@CrossOrigin(origins = {"*"})
+@CrossOrigin
 public class WorldController {
 
     @Autowired
