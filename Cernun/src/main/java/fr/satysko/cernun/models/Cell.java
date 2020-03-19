@@ -22,6 +22,11 @@ public class Cell extends Entite {
 
 	public Cell(float niv, float hum, float tem) {
 		biome = new Biome(niv, hum, tem);
+		biome.definePath();
+		picture = new Picture();
+		picture.setName(biome.getBiome());
+		picture.setIpath(biome.getPath());
+		picture.setExtension("png");
 	}
 
 	public World getWorld() {
@@ -59,15 +64,17 @@ public class Cell extends Entite {
 	@PostLoad
 	@PostConstruct
 	private void postLoad(){
+		System.out.println(this);
+		if(biome.getPath() == null){
+			biome.definePath();
+		}
 		if(picture == null){
 			picture = new Picture();
-			if(biome.getPath() == null){
-				biome.definePath();
-			}
 			picture.setName(biome.getBiome());
 			picture.setIpath(biome.getPath());
 			picture.setExtension("png");
 		}
+		System.out.println(this);
 	}
 
 	@Override

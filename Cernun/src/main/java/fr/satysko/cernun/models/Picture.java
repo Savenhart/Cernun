@@ -34,4 +34,13 @@ public class Picture extends Entite {
     public void setExtension(String extension) {
         this.extension = extension;
     }
+
+    @Override
+    public String toString() {
+        return "Picture{" +
+                "name='" + name + '\'' +
+                ", ipath='" + ipath + '\'' +
+                ", extension='" + extension + '\'' +
+                '}';
+    }
 }
