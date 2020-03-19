@@ -13,11 +13,12 @@ public class Cell extends Entite {
 	@Embedded
 	private Location location;
 	@Embedded
-	Biome biome;
-	@OneToOne
+	private Biome biome;
+	@OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
 	private Picture picture;
 
-	public Cell() {}
+	public Cell() {
+	}
 
 	public Cell(float niv, float hum, float tem) {
 		biome = new Biome(niv, hum, tem);
@@ -58,14 +59,24 @@ public class Cell extends Entite {
 	@PostLoad
 	@PostConstruct
 	private void postLoad(){
-//		if(picture == null){
-//			picture = new Picture();
-//			if(biome.getPath() == null){
-//				biome.definePath();
-//			}
-//			picture.setName(biome.getBiome());
-//			picture.setIpath(biome.getPath());
-//			picture.setExtension("png");
-//		}
+		if(picture == null){
+			picture = new Picture();
+			if(biome.getPath() == null){
+				biome.definePath();
+			}
+			picture.setName(biome.getBiome());
+			picture.setIpath(biome.getPath());
+			picture.setExtension("png");
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "Cell{" +
+				"world=" + world +
+				", location=" + location +
+				", biome=" + biome +
+				", picture=" + picture +
+				'}';
 	}
 }

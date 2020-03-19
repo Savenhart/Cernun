@@ -9,6 +9,8 @@ public class Picture extends Entite {
     private String ipath;
     private String extension;
 
+    public Picture(){}
+
     public String getName() {
         return name;
     }
