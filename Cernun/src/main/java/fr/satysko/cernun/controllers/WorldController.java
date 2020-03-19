@@ -143,7 +143,6 @@ public class WorldController {
     //Retrouve toutes les cellules d'un monde autour d'une position
     @PostMapping("/grid/{id}/{scale}")
     public RestResponse<List<Cell>> getGridLocation(@PathVariable("id") int id, @RequestBody Location pos, @PathVariable("scale") int scale){
-        System.out.println(LocalDateTime.now() + "in");
         RestResponse<List<Cell>> response = null;
         try {
             List<Cell> grid = worldService.findAllCell(id, pos.getPosX(), pos.getPosY(), scale);
@@ -154,7 +153,6 @@ public class WorldController {
             response = new RestResponse<>(e, 400);
             throw e;
         }
-        System.out.println(LocalDateTime.now() + " out");
         return response;
     }
 
