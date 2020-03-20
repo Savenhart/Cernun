@@ -9,8 +9,10 @@ import fr.satysko.cernun.services.WorldService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @RestController
@@ -143,6 +145,8 @@ public class WorldController {
     //Retrouve toutes les cellules d'un monde autour d'une position
     @PostMapping("/grid/{id}/{scale}")
     public RestResponse<List<Cell>> getGridLocation(@PathVariable("id") int id, @RequestBody Location pos, @PathVariable("scale") int scale){
+        System.out.println("X :" + pos.getPosX() + " | Y :" + pos.getPosY() + " | scale :" + scale);
+        LocalDateTime avant = LocalDateTime.now();
         RestResponse<List<Cell>> response = null;
         try {
             List<Cell> grid = worldService.findAllCell(id, pos.getPosX(), pos.getPosY(), scale);
@@ -153,6 +157,16 @@ public class WorldController {
             response = new RestResponse<>(e, 400);
             throw e;
         }
+        LocalDateTime apres = LocalDateTime.now();
+        LocalDateTime tempDateTime = LocalDateTime.from( avant );
+
+        long seconds = tempDateTime.until( apres, ChronoUnit.SECONDS );
+        tempDateTime = tempDateTime.plusSeconds(seconds);
+
+        long millis = tempDateTime.until( apres, ChronoUnit.MILLIS );
+
+        System.out.println("Temps de traitement : " + seconds + "." + millis);
+
         return response;
     }
 

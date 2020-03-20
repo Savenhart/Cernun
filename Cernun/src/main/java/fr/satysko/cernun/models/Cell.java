@@ -64,7 +64,6 @@ public class Cell extends Entite {
 	@PostLoad
 	@PostConstruct
 	private void postLoad(){
-		System.out.println(this);
 		if(biome.getPath() == null){
 			biome.definePath();
 		}
@@ -74,7 +73,6 @@ public class Cell extends Entite {
 			picture.setIpath(biome.getPath());
 			picture.setExtension("png");
 		}
-		System.out.println(this);
 	}
 
 	@Override
