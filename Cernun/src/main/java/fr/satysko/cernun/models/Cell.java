@@ -1,12 +1,15 @@
 package fr.satysko.cernun.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.satysko.cernun.repositories.PictureRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.*;
 
 @Entity
 public class Cell extends Entite {
+
 	@ManyToOne
 	@JsonIgnore
 	private World world;
@@ -23,10 +26,6 @@ public class Cell extends Entite {
 	public Cell(float niv, float hum, float tem) {
 		biome = new Biome(niv, hum, tem);
 		biome.definePath();
-		picture = new Picture();
-		picture.setName(biome.getBiome());
-		picture.setIpath(biome.getPath());
-		picture.setExtension("png");
 	}
 
 	public World getWorld() {
@@ -66,12 +65,6 @@ public class Cell extends Entite {
 	private void postLoad(){
 		if(biome.getPath() == null){
 			biome.definePath();
-		}
-		if(picture == null){
-			picture = new Picture();
-			picture.setName(biome.getBiome());
-			picture.setIpath(biome.getPath());
-			picture.setExtension("png");
 		}
 	}
 

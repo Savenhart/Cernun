@@ -3,10 +3,13 @@ package fr.satysko.cernun.services;
 import fr.satysko.cernun.exceptions.WorldException;
 import fr.satysko.cernun.interfaces.GenericServices;
 import fr.satysko.cernun.models.Cell;
+import fr.satysko.cernun.models.Picture;
 import fr.satysko.cernun.models.World;
 import fr.satysko.cernun.repositories.CellRepository;
+import fr.satysko.cernun.repositories.PictureRepository;
 import fr.satysko.cernun.repositories.WorldRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,6 +24,8 @@ public class WorldService implements GenericServices<World> {
     WorldRepository repository;
     @Autowired
     CellRepository cRepository;
+    @Autowired
+    PictureRepository pRepository;
 
 
     @Override
@@ -89,7 +94,19 @@ public class WorldService implements GenericServices<World> {
                     int ny = y + dy;
                     Cell c = cRepository.findPos(id, nx, ny);
                     if(c == null){
-                        c = cRepository.save(world.genCell(nx, ny));
+                        c = world.genCell(nx, ny);
+                        c = cRepository.save(c);
+                    }
+                    if(c.getPicture() == null){
+                        Picture p = pRepository.findByIpathAndExtension(c.getBiome().getPath(), "png");
+                        if (p == null){
+                            p = new Picture();
+                            p.setName(c.getBiome().getBiome());
+                            p.setIpath(c.getBiome().getPath());
+                            p.setExtension("png");
+                        }
+                        c.setPicture(p);
+                        c = cRepository.save(c);
                     }
                     grid.add(c);
                 }
