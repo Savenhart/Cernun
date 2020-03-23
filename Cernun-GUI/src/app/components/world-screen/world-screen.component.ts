@@ -5,7 +5,7 @@ import { WorldService } from 'src/app/_services/world.service';
 import { Location } from '../../_models/location.model';
 import { tap, takeUntil } from 'rxjs/operators';
 import { Cell } from '../../_models/cell.model';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-world-screen',
@@ -96,8 +96,8 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
       };
 
       p.keyPressed = () => {
-        this.nbCells = parseInt(this.nbCells.toFixed(0));
-        this.pas = parseInt(this.pas.toFixed(0));
+        this.nbCells = parseInt(this.nbCells.toFixed(0), 10);
+        this.pas = parseInt(this.pas.toFixed(0), 10);
         switch (p.key) {
           case '-':
             this.nbCells = this.nbCells < this.zoomMax ? this.nbCells += this.pas : this.zoomMax;
@@ -105,7 +105,7 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
             break;
           case '+':
             this.nbCells = this.nbCells > this.zoomMin ? this.nbCells - this.pas : this.zoomMin;
-            this.scale = this.scale > this.zoomMin ? this.scale -1 : this.zoomMin;
+            this.scale = this.scale > this.zoomMin ? this.scale - 1 : this.zoomMin;
             break;
           case 'z':
             this.goUp = true;
@@ -120,7 +120,6 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
             this.goRight = true;
             break;
         }
-        console.log(this.scale);
       };
 
       p.keyReleased = () => {
@@ -138,10 +137,8 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
             this.goRight = false;
             break;
         }
-        console.log("test");
         this.getOrGenerateWorld(this.originX, this.originY, this.scale).pipe(takeUntil(this.onDestroy)).subscribe(() => { });
       };
-
 
       p.windowResized = () => {
         p.resizeCanvas(p.windowWidth / 2, p.windowHeight * 0.75);
@@ -149,10 +146,10 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
     });
   }
 
-  getOrGenerateWorld(x?, y?, scale?) {
-    this.pos.posX = x || 0;
-    this.pos.posY = y || 0;
-    this.scale = scale || 5;
+  getOrGenerateWorld(x, y, scale): Observable<Set<Cell>> {
+    this.pos.posX = x;
+    this.pos.posY = y;
+    this.scale = scale;
     this.gridList.clear();
     // .pipe(tap()) return an Observable
     return this.worldService.getOrGenerateWorldCell(this.id, this.pos, this.scale)

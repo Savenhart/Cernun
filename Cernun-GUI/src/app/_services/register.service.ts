@@ -4,6 +4,7 @@ import { User } from '../_models/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
+import * as sha512 from 'js-sha512';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class RegisterService {
   }
 
   register(email: string, password: string, userName: string) {
+    password  = sha512.sha512('CernunosPassword' + password);
     return this.http.post<any>(`${environment.apiUrl}/user/create`, { email, password, userName })
       .pipe(map(user => {
         if (user.statusHttp === 200) {
