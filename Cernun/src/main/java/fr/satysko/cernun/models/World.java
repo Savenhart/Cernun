@@ -49,12 +49,28 @@ public class World extends Entite {
     public Cell genCell(int x, int y) {
         Location k = new Location();
         k.setPos(new Vector2d(x, y));
-        //Génération du bruit pour l'élévation en fonction des coordonnées
-        float niv = (float) (oNoise.eval(x ,y ) + oNoise.eval(x *2 ,y * 2 ) / 2 + oNoise.eval(x * 4,y * 4 ) / 4);
-        //Génération du bruit pour l'élévation en fonction des coordonnées
-        float hum = (float) oNoise.eval(0.2 * x / 20.0, 0.2 * y / 20.0);
-        //Génération du bruit pour l'élévation en fonction des coordonnées
-        float tem = (float) oNoise.eval(0.2 * x / 20.0, 0.2 * y / 20.0);
+//        //Génération du bruit pour l'élévation en fonction des coordonnées
+//        float niv = (float) (oNoise.eval(x ,y ) + oNoise.eval(x *2 ,y * 2 ) / 2 + oNoise.eval(x * 4,y * 4 ) / 4);
+//        //Génération du bruit pour l'élévation en fonction des coordonnées
+//        float hum = (float) oNoise.eval(0.2 * x / 20.0, 0.2 * y / 20.0);
+//        //Génération du bruit pour l'élévation en fonction des coordonnées
+//        float tem = (float) oNoise.eval(0.2 * x / 20.0, 0.2 * y / 20.0);
+
+        float niv0 = (float) oNoise.eval(x / 20.0, y / 20.0);
+        float niv1 = (float) (0.5 * oNoise.eval(x / 10.0, y / 10.0) * niv0);
+        float niv2 = (float) (0.25 * oNoise.eval(x / 5.0, y / 5.0) * (niv0 + niv1));
+        float niv = niv0 + niv1 + niv2;
+
+        float hum0 = (float) oNoise.eval(x / 60.0, y / 60.0);
+        float hum1 = (float) (0.5 * oNoise.eval(x / 30.0, y / 30.0) * hum0);
+        float hum2 = (float) (0.25 * oNoise.eval(x / 15.0, y / 15.0) * (hum0 + hum1));
+        float hum = hum0 + hum1 + hum2;
+
+        float tem0 = (float) oNoise.eval(x / 100.0 , y / 100.0 );
+        float tem1 = (float) (0.5 * oNoise.eval(2 * x / 100.0 , 2 * y / 100.0 ) * hum0);
+        float tem2 = (float) (0.25 * oNoise.eval(4 * x / 100.0 , 4 * y / 100.0 ) * (hum0 + hum1));
+        float tem = tem0 + tem1 + tem2;
+
         Cell c = new Cell(niv, hum, tem);
         c.setWorld(this);
         c.setLocation(k);
