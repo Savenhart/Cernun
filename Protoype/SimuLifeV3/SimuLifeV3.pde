@@ -31,7 +31,7 @@ public void setup(){
   nbCell = min + pas;
   
   //Initialisation monde
-  monde = new World("Monde 1", 46854);
+  monde = new World("Monde 1", 42);
   //monde = new World("Monde 1", round(random(999999999)));
   
 }

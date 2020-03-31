@@ -1,10 +1,7 @@
 package fr.satysko.cernun.controllers;
 
 import fr.satysko.cernun.exceptions.WorldException;
-import fr.satysko.cernun.models.Cell;
-import fr.satysko.cernun.models.Location;
-import fr.satysko.cernun.models.RestResponse;
-import fr.satysko.cernun.models.World;
+import fr.satysko.cernun.models.*;
 import fr.satysko.cernun.services.WorldService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -151,6 +148,34 @@ public class WorldController {
         try {
             List<Cell> grid = worldService.findAllCell(id, pos.getPosX(), pos.getPosY(), scale);
             response = new RestResponse<>(grid);
+        }catch (WorldException e){
+            response = new RestResponse<>(e, 204);
+        }catch (Exception e){
+            response = new RestResponse<>(e, 400);
+            throw e;
+        }
+        LocalDateTime apres = LocalDateTime.now();
+        LocalDateTime tempDateTime = LocalDateTime.from( avant );
+
+        long seconds = tempDateTime.until( apres, ChronoUnit.SECONDS );
+        tempDateTime = tempDateTime.plusSeconds(seconds);
+
+        long millis = tempDateTime.until( apres, ChronoUnit.MILLIS );
+
+        System.out.println("Temps de traitement : " + seconds + "." + millis);
+
+        return response;
+    }
+
+    //Retrouve toutes les nourritures d'un monde autour d'une position
+    @PostMapping("/food/{id}/{scale}")
+    public RestResponse<List<Food>> getFoodLocation(@PathVariable("id") int id, @RequestBody Location pos, @PathVariable("scale") int scale){
+        System.out.println("X :" + pos.getPosX() + " | Y :" + pos.getPosY() + " | scale :" + scale);
+        LocalDateTime avant = LocalDateTime.now();
+        RestResponse<List<Food>> response = null;
+        try {
+            List<Food> foods = worldService.findAllFood(id, pos.getPosX(), pos.getPosY(), scale);
+            response = new RestResponse<>(foods);
         }catch (WorldException e){
             response = new RestResponse<>(e, 204);
         }catch (Exception e){

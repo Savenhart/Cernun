@@ -1,5 +1,7 @@
 package fr.satysko.cernun.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -8,6 +10,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class Food extends Entite {
     @ManyToOne
+    @JsonIgnore
     private World world;
     private int energy;
     private boolean isMeat;

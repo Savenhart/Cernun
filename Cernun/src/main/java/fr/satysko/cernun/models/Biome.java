@@ -14,11 +14,14 @@ public class Biome {
 	EBiome biome;
 	@Transient
 	String path;
+	@Transient
+	int rank;
 
 	public Biome(){}
 
-	public Biome (float niv, float hum, float tem) {
+	public Biome (double niv, double hum, double tem) {
 		defineBiome(niv, hum, tem);
+		defineRank();
 	}
 
 	public String getBiome() {
@@ -37,7 +40,15 @@ public class Biome {
 		this.path = path;
 	}
 
-	public void defineBiome(float niv, float hum, float tem){
+	public int getRank() {
+		return rank;
+	}
+
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
+
+	public void defineBiome(double niv, double hum, double tem){
 		if (niv > 0.85){
 			if(tem > 0.8){
 				biome = EBiome.VOLCAN;
@@ -179,6 +190,10 @@ public class Biome {
 		String[] lstPath = biome.getPath();
 		int index = new Random().nextInt(lstPath.length);
 		path = lstPath[index];
+	}
+
+	public void defineRank(){
+		rank = biome.getRank();
 	}
 
 	@PostLoad

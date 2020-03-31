@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { World } from '../_models/world.model';
 import { Location } from '../_models/location.model';
 import { Cell } from '../_models/cell.model';
+import { Food } from '../_models/food.model';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +48,19 @@ export class WorldService {
         gridCell.add(new Cell(c));
       }
       return gridCell;
+    }));
+  }
+
+  getWorldFood(id: number, pos: Location, scale: number) {
+    const posX = pos.posX;
+    const posY = pos.posY;
+    return this.http.post<any>(`${environment.apiUrl}/world/food/${id}/${scale}`, {posX, posY}).pipe(map(res => {
+      const gridFood = new Set<Food>();
+      for (const f of res.content) {
+        gridFood.add(new Food(f));
+      }
+      console.log(gridFood);
+      return gridFood;
     }));
   }
 }
