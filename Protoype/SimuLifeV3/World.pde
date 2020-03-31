@@ -6,6 +6,7 @@ import java.util.Set;
 class World{
   
   Map<Key, Cell> world;
+  Map<Key, Food> foods;
   String name;
   long seed;
   int id;
@@ -17,6 +18,7 @@ class World{
     seed = s;
     oNoise = new OpenSimplexNoise(seed);
     world = new HashMap<Key, Cell>();
+    foods = new HashMap<Key, Food>();
   }
   
   public void genCell(int x, int y){
@@ -37,6 +39,30 @@ class World{
     float tem = tem0 + tem1 + tem2;
     Cell c = new Cell(niv, hum, tem);
     world.put(k, c);
+    
+    genFood(x, y, c.biome.getBiome().getRay());
+  }
+  
+  public void genFood(int x, int y, int rank){
+    Key k = new Key(x, y);
+    double max = 0.0;
+    double val = 0.0;
+    for(int nx = x - rank; nx < x + rank; nx++){
+      for(int ny = y - rank; ny < y + rank; ny++){
+        double temp = oNoise.eval(nx, ny);
+        if(temp > max){
+          max = temp;
+        }
+        if(nx ==x && ny == y){
+          val = temp;
+        }
+      }
+    }
+    if(max == val){
+      Food f = new Food();
+      foods.put(k, f);
+      System.out.println(k.posX + " " + k.posY);
+    }
   }
   
   
@@ -72,7 +98,13 @@ class World{
           Cell c = world.get(k);
           legende.add(c.getBiome());
           translate(height / 2 - cx, height / 2 - cy);
-          c.draw((x + px) * 3 * size / 2, (y + py) * sqrt(3) * size + abs(x + px) % 2 * sqrt(3) * size / 2, size);
+          float posX = (x + px) * 3 * size / 2;
+          float posY = (y + py) * sqrt(3) * size + abs(x + px) % 2 * sqrt(3) * size / 2;
+          c.draw(posX, posY, size);
+          if(foods.containsKey(k)){
+            Food f = foods.get(k);
+            f.draw(posX, posY, size);
+          }
           fill(0);
           translate(-height / 2 + cx, - height / 2 + cy);
         }

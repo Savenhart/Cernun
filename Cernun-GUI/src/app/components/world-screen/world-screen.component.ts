@@ -6,6 +6,7 @@ import { Location } from '../../_models/location.model';
 import { tap, takeUntil } from 'rxjs/operators';
 import { Cell } from '../../_models/cell.model';
 import { Subject, Observable } from 'rxjs';
+import { Food } from 'src/app/_models/food.model';
 
 @Component({
   selector: 'app-world-screen',
@@ -22,6 +23,7 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
   pos: Location;
   error: string;
   gridList: Set<Cell>;
+  foodList: Set<Food>;
   originX = 0;
   originY = 0;
   size = 20;
@@ -40,7 +42,9 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
       this.id = params.id;
       this.pos = new Location();
       this.gridList = new Set<Cell>();
+      this.foodList = new Set<Food>();
       this.getOrGenerateWorld(this.originX, this.originY, this.scale).pipe(takeUntil(this.onDestroy)).subscribe(() => { });
+      this.getWorldFood(this.originX, this.originY, this.scale).pipe(takeUntil(this.onDestroy)).subscribe(() => { });
     });
   }
 
@@ -78,8 +82,8 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
           for (const elem of this.gridList) {
             p.fill(elem.biome.path);
             const cX = elem.location.posX * 3 * this.size / 2;
-            const cy = elem.location.posY * p.sqrt(3) * this.size + p.abs(elem.location.posX) % 2 * p.sqrt(3) * this.size / 2;
-            p.translate(cX, cy);
+            const cY = elem.location.posY * p.sqrt(3) * this.size + p.abs(elem.location.posX) % 2 * p.sqrt(3) * this.size / 2;
+            p.translate(cX, cY);
             p.beginShape();
             p.noStroke();
             for (let a = 0; a < p.TWO_PI; a += angle) {
@@ -88,7 +92,24 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
               p.vertex(hx, hy);
             }
             p.endShape(p.CLOSE);
-            p.translate(-cX, -cy);
+            p.translate(-cX, -cY);
+          }
+
+          p.translate(this.originX * this.size * 3 / 2,
+            this.originY * p.sqrt(3) * this.size + this.originX % 2 * p.sqrt(3) * this.size / 2);
+        }
+
+        if (this.foodList.size !== 0) {
+          p.translate(-this.originX * this.size * 3 / 2,
+            -(this.originY * p.sqrt(3) * this.size + this.originX % 2 * p.sqrt(3) * this.size / 2));
+          for (const elem of this.foodList) {
+            p.fill(0);
+            const cX = elem.location.posX * 3 * this.size / 2;
+            const cY = elem.location.posY * p.sqrt(3) * this.size + p.abs(elem.location.posX) % 2 * p.sqrt(3) * this.size / 2;
+            p.translate(cX, cY);
+            p.stroke(255);
+            p.circle(0, 0, this.size);
+            p.translate(-cX, -cY);
           }
           p.translate(this.originX * this.size * 3 / 2,
             this.originY * p.sqrt(3) * this.size + this.originX % 2 * p.sqrt(3) * this.size / 2);
@@ -138,6 +159,7 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
             break;
         }
         this.getOrGenerateWorld(this.originX, this.originY, this.scale).pipe(takeUntil(this.onDestroy)).subscribe(() => { });
+        this.getWorldFood(this.originX, this.originY, this.scale).pipe(takeUntil(this.onDestroy)).subscribe(() => { });
       };
 
       p.windowResized = () => {
@@ -154,6 +176,15 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
     // .pipe(tap()) return an Observable
     return this.worldService.getOrGenerateWorldCell(this.id, this.pos, this.scale)
       .pipe(tap(data => { this.gridList = data; }));
+  }
+
+  getWorldFood(x, y, scale): Observable<Set<Food>> {
+    this.pos.posX = x;
+    this.pos.posY = y;
+    this.scale = scale;
+    this.foodList.clear();
+    return this.worldService.getWorldFood(this.id, this.pos, this.scale)
+      .pipe(tap(data => { this.foodList = data; }));
   }
 
 }

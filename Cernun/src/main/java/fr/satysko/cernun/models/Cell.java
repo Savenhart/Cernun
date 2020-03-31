@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.persistence.*;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"world_id", "posx", "posy"}))
 public class Cell extends Entite {
 
 	@ManyToOne
@@ -23,7 +24,7 @@ public class Cell extends Entite {
 	public Cell() {
 	}
 
-	public Cell(float niv, float hum, float tem) {
+	public Cell(double niv, double hum, double tem) {
 		biome = new Biome(niv, hum, tem);
 		biome.definePath();
 	}
