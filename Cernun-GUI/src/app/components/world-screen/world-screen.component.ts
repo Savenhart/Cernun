@@ -7,6 +7,7 @@ import { tap, takeUntil } from 'rxjs/operators';
 import { Cell } from '../../_models/cell.model';
 import { Subject, Observable } from 'rxjs';
 
+
 @Component({
   selector: 'app-world-screen',
   templateUrl: './world-screen.component.html',
@@ -67,7 +68,7 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
         const angle = p.TWO_PI / 6;
         // moving map with the keyboard
         if (this.goUp || this.goDown || this.goLeft || this.goRight) {
-          this.originX += ((this.goLeft ? 1 : 0) - (this.goRight ? 1 : 0)) * 2;
+          this.originX += ((this.goRight ? 1 : 0) - (this.goLeft ? 1 : 0)) * 2;
           this.originY += ((this.goDown ? 1 : 0) - (this.goUp ? 1 : 0)) * 2;
         }
 
