@@ -1,9 +1,17 @@
+import { Picture } from './picture.model';
+import { UserWorld } from './user-world.model';
+import { Droit } from './droit.model';
 export class User {
   id: number;
-  accountName: string;
+  email: string;
   userName: string;
   password: string;
-  // private _avatar: picture;
-  // private _appartenances: Set<Appartenance>;
+  avatar: Picture;
+  userWorld: Set<UserWorld>;
+  droit: Set<Droit>;
   token?: string;
+
+  constructor(obj: object) {
+    Object.assign(this, obj);
+  }
 }

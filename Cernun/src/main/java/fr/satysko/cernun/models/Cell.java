@@ -1,25 +1,32 @@
 package fr.satysko.cernun.models;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.satysko.cernun.repositories.PictureRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.annotation.PostConstruct;
+import javax.persistence.*;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"world_id", "posx", "posy"}))
 public class Cell extends Entite {
+
 	@ManyToOne
+	@JsonIgnore
 	private World world;
 	@Embedded
 	private Location location;
 	@Embedded
-	Biome biome;
-	@OneToOne
+	private Biome biome;
+	@OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
 	private Picture picture;
 
-	public Cell() {}
+	public Cell() {
+	}
 
-	public Cell(float niv, float hum, float tem) {
+	public Cell(double niv, double hum, double tem) {
 		biome = new Biome(niv, hum, tem);
+		biome.definePath();
 	}
 
 	public World getWorld() {
@@ -38,8 +45,8 @@ public class Cell extends Entite {
 		this.location = location;
 	}
 
-	public String getBiome() {
-		return biome.getBiome();
+	public Biome getBiome() {
+		return biome;
 	}
 
 	public void setBiome(Biome biome) {
@@ -52,5 +59,23 @@ public class Cell extends Entite {
 
 	public void setPicture(Picture picture) {
 		this.picture = picture;
+	}
+
+	@PostLoad
+	@PostConstruct
+	private void postLoad(){
+		if(biome.getPath() == null){
+			biome.definePath();
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "Cell{" +
+				"world=" + world +
+				", location=" + location +
+				", biome=" + biome +
+				", picture=" + picture +
+				'}';
 	}
 }

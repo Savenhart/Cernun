@@ -1,6 +1,6 @@
 class Biome{
   
-  SimuLifeV2.biomes biome; 
+  SimuLifeV3.biomes biome; 
   
   public Biome(float niv, float hum, float tem){
     if (niv > 0.85){
@@ -140,7 +140,7 @@ class Biome{
     }
   }
   
-  public SimuLifeV2.biomes getBiome(){
+  public SimuLifeV3.biomes getBiome(){
     return biome;
   }
   

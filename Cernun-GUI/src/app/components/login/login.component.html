@@ -1,17 +1,13 @@
 <div class="col-md-6 offset-md-3 mt-5">
-  <div class="alert alert-info">
-      accountName: test<br />
-      Password: test
-  </div>
   <div class="card">
-      <h4 class="card-header">Angular 8 JWT Login Example</h4>
+      <h4 class="card-header">Login</h4>
       <div class="card-body">
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
               <div class="form-group">
-                  <label for="accountName">accountName</label>
-                  <input type="text" formControlName="accountName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.accountName.errors }" />
-                  <div *ngIf="submitted && f.accountName.errors" class="invalid-feedback">
-                      <div *ngIf="f.accountName.errors.required">accountName is required</div>
+                  <label for="email">email</label>
+                  <input type="email" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                  <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                      <div *ngIf="f.email.errors.required">email is required</div>
                   </div>
               </div>
               <div class="form-group">

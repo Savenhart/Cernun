@@ -1,20 +1,54 @@
 package fr.satysko.cernun.models;
 
 import fr.satysko.cernun.utils.EBiome;
+import fr.satysko.cernun.utils.OpenSimplexNoise;
 
-import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.annotation.PostConstruct;
+import javax.persistence.*;
+import java.util.Random;
 
 @Embeddable
 public class Biome {
 
 	@Enumerated(EnumType.STRING)
 	EBiome biome;
+	@Transient
+	String path;
+	@Transient
+	int rank;
 
 	public Biome(){}
 
-	public Biome (float niv, float hum, float tem) {
+	public Biome (double niv, double hum, double tem) {
+		defineBiome(niv, hum, tem);
+		defineRank();
+	}
+
+	public String getBiome() {
+		return biome.getName();
+	}
+
+	public void setBiome(String key) {
+		biome = EBiome.valueOfByName(key);
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public int getRank() {
+		return rank;
+	}
+
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
+
+	public void defineBiome(double niv, double hum, double tem){
 		if (niv > 0.85){
 			if(tem > 0.8){
 				biome = EBiome.VOLCAN;
@@ -151,8 +185,27 @@ public class Biome {
 			}
 		}
 	}
-		
-	public String getBiome() {
-		return biome.getName();
+
+	public void definePath(){
+		String[] lstPath = biome.getPath();
+		int index = new Random().nextInt(lstPath.length);
+		path = lstPath[index];
+	}
+
+	public void defineRank(){
+		rank = biome.getRank();
+	}
+
+	@PostLoad
+	@PostConstruct
+	private void postLoad(){
+		if(path == null) {
+			definePath();
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "Biome " + biome + " path : " + path;
 	}
 }

@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { User } from '../_models/user.model';
+import * as sha512 from 'js-sha512';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -20,8 +21,9 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
-    login(accountName: string, password: string) {
-        return this.http.post<any>(`${environment.apiUrl}/user/connect`, { accountName, password })
+    login(email: string, password: string) {
+      password = sha512.sha512('CernunosPassword' + password);
+      return this.http.post<any>(`${environment.apiUrl}/user/connect`, { email, password })
             .pipe(map(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 if (user.statusHttp === 200) {

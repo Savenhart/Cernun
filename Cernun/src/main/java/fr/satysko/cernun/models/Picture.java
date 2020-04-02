@@ -1,13 +1,18 @@
 package fr.satysko.cernun.models;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"ipath", "extension"}))
 public class Picture extends Entite {
 
     private String name;
     private String ipath;
     private String extension;
+
+    public Picture(){}
 
     public String getName() {
         return name;
@@ -31,5 +36,14 @@ public class Picture extends Entite {
 
     public void setExtension(String extension) {
         this.extension = extension;
+    }
+
+    @Override
+    public String toString() {
+        return "Picture{" +
+                "name='" + name + '\'' +
+                ", ipath='" + ipath + '\'' +
+                ", extension='" + extension + '\'' +
+                '}';
     }
 }

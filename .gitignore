@@ -88,3 +88,7 @@ Cernun-GUI/typings
 Cernun-GUI/.DS_Store
 Cernun-GUI/Thumbs.db
 
+
+Cernun/target/
+
+Cernun/.mvn/wrapper/
