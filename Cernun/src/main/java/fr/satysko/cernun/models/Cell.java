@@ -8,18 +8,18 @@ import javax.annotation.PostConstruct;
 import javax.persistence.*;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"world_id", "posx", "posy"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"chunk_id", "posx", "posy"}))
 public class Cell extends Entite {
 
-	@ManyToOne
-	@JsonIgnore
-	private World world;
 	@Embedded
 	private Location location;
 	@Embedded
 	private Biome biome;
 	@OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
 	private Picture picture;
+	@ManyToOne
+    @JsonIgnore
+	private Chunk chunk;
 
 	public Cell() {
 	}
@@ -27,14 +27,6 @@ public class Cell extends Entite {
 	public Cell(double niv, double hum, double tem) {
 		biome = new Biome(niv, hum, tem);
 		biome.definePath();
-	}
-
-	public World getWorld() {
-		return world;
-	}
-
-	public void setWorld(World world) {
-		this.world = world;
 	}
 
 	public Location getLocation() {
@@ -61,6 +53,14 @@ public class Cell extends Entite {
 		this.picture = picture;
 	}
 
+	public Chunk getChunk() {
+		return chunk;
+	}
+
+	public void setChunk(Chunk chunk) {
+		this.chunk = chunk;
+	}
+
 	@PostLoad
 	@PostConstruct
 	private void postLoad(){
@@ -72,7 +72,7 @@ public class Cell extends Entite {
 	@Override
 	public String toString() {
 		return "Cell{" +
-				"world=" + world +
+				"chunk=" + chunk +
 				", location=" + location +
 				", biome=" + biome +
 				", picture=" + picture +

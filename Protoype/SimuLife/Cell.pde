@@ -14,7 +14,7 @@ class Cell{
     float angle = TWO_PI / 6;
     translate(x, y);
     beginShape();
-    noStroke();
+    //noStroke();
     fill(this.biome.getColor());
     for(float a = 0; a < TWO_PI; a += angle){
       float hx = cos(a) * (size + 1);
