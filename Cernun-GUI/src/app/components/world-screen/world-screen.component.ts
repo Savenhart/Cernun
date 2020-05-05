@@ -7,6 +7,9 @@ import { tap, takeUntil } from 'rxjs/operators';
 import { Cell } from '../../_models/cell.model';
 import { Subject, Observable } from 'rxjs';
 import { Food } from 'src/app/_models/food.model';
+import { environment } from '../../../environments/environment';
+import * as Stomp from 'stompjs';
+import { Creature } from 'src/app/_models/creature.model';
 
 
 @Component({
@@ -36,6 +39,8 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
   pas: number;
   zoomMax = 10;
   zoomMin = 5;
+  socket: any;
+  listCreature: Creature[];
 
   constructor(private route: ActivatedRoute,
               private worldService: WorldService) {
@@ -47,10 +52,34 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
       this.getOrGenerateWorld(this.originX, this.originY, this.scale).pipe(takeUntil(this.onDestroy)).subscribe(() => { });
       this.getWorldFood(this.originX, this.originY, this.scale).pipe(takeUntil(this.onDestroy)).subscribe(() => { });
     });
+    // websocket
+    const webSocket = new WebSocket(environment.wsUrl);
+    this.socket = Stomp.over(webSocket);
+    const that = this;
+    this.socket.connect({}, (frame) => {
+      that.socket.pipe(takeUntil(that.onDestroy)).subscribe('/errors', (message) => {
+        alert('Error' + message.body);
+      });
+      that.socket.pipe(takeUntil(that.onDestroy)).subscribe('/creature', (message) => {
+        that.listCreature = [];
+        for (const c of message.body) {
+          that.listCreature.push(new Creature(c));
+        }
+      });
+      const currentUser = localStorage.getItem('currentUser');
+      that.socket.send('/app/connect/' + that.id, {}, currentUser);
+    }, (error) => {
+      alert('STOMP error' + error);
+    });
   }
 
   ngOnDestroy(): void {
     this.onDestroy.next();
+    const currentUser = localStorage.getItem('currentUser');
+    this.socket.send('/app/disconnect/' + this.id, {}, currentUser);
+    if (this.socket != null) {
+      this.socket.ws.close();
+    }
   }
 
   ngOnInit(): void {
@@ -76,6 +105,7 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
           this.originY += ((this.goDown ? 1 : 0) - (this.goUp ? 1 : 0)) * 2;
         }
 
+        // affichage cellule
         if (this.gridList.size !== 0) {
           p.background(20);
           p.translate(-this.originX * this.size * 3 / 2,
@@ -100,6 +130,7 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
             this.originY * p.sqrt(3) * this.size + this.originX % 2 * p.sqrt(3) * this.size / 2);
         }
 
+        // affichage nourriture
         if (this.foodList.size !== 0) {
           p.translate(-this.originX * this.size * 3 / 2,
             -(this.originY * p.sqrt(3) * this.size + this.originX % 2 * p.sqrt(3) * this.size / 2));
@@ -107,6 +138,23 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
             p.fill(0);
             const cX = elem.location.posX * 3 * this.size / 2;
             const cY = elem.location.posY * p.sqrt(3) * this.size + p.abs(elem.location.posX) % 2 * p.sqrt(3) * this.size / 2;
+            p.translate(cX, cY);
+            p.stroke(255);
+            p.circle(0, 0, this.size);
+            p.translate(-cX, -cY);
+          }
+          p.translate(this.originX * this.size * 3 / 2,
+            this.originY * p.sqrt(3) * this.size + this.originX % 2 * p.sqrt(3) * this.size / 2);
+        }
+
+        // affichage creature
+        if (this.listCreature.length !== 0) {
+          p.translate(-this.originX * this.size * 3 / 2,
+            -(this.originY * p.sqrt(3) * this.size + this.originX % 2 * p.sqrt(3) * this.size / 2));
+          for (const elem of this.listCreature) {
+            p.fill('red');
+            const cX = elem.posX * 3 * this.size / 2;
+            const cY = elem.posY * p.sqrt(3) * this.size + p.abs(elem.posX) % 2 * p.sqrt(3) * this.size / 2;
             p.translate(cX, cY);
             p.stroke(255);
             p.circle(0, 0, this.size);
