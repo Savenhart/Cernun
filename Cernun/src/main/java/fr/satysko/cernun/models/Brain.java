@@ -1,9 +1,10 @@
 package fr.satysko.cernun.models;
 
-import ch.qos.logback.core.joran.spi.ConsoleTarget;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 
+import javax.persistence.Embeddable;
 
+@Embeddable
 public class Brain {
 
     private Array2DRowRealMatrix weight_i;

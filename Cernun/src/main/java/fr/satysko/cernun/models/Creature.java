@@ -1,12 +1,11 @@
 package fr.satysko.cernun.models;
 
+import fr.satysko.cernun.utils.Utils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.hibernate.event.spi.MergeEvent;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.vecmath.Vector2d;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,11 +13,13 @@ import java.util.Map;
 
 @Entity
 public class Creature extends Entite {
+    @Transient
     private final static double MARGIN = 0.2;
 
     private String name;
     private int moveSpeed;
     private double movePoint;
+    private double movePointUsed;
     // To DO : proportionnel au moveSpeed
     // private double attackPoint;
     private int energy;
@@ -31,11 +32,14 @@ public class Creature extends Entite {
     private double toleranceTemperature;
     private int posX;
     private int posY;
-    private Brain brain;
     private double ratioExploration = 0.9;
     private double learningRate = 0.8;
+    @Transient
     private Cell[] view;
+    @Transient
     private double[] rewards;
+    @Embedded
+    private Brain brain;
     @OneToOne
     private Picture picture;
     @ManyToOne
@@ -43,10 +47,9 @@ public class Creature extends Entite {
 
     public Creature() {}
 
-    public Creature(int posX, int posY, String name, UserWorld userWorld) {
+    public Creature(int posX, int posY, UserWorld userWorld) {
         this.posX = posX;
         this.posY = posY;
-        this.name = name;
         this.moveSpeed = (int) Math.round(Math.random() * 4 + 1);
         this.movePoint = (this.moveSpeed * 3 + 1) / 2;
         this.mass = (int) Math.round(Math.random() * 90 + 10);
@@ -60,6 +63,7 @@ public class Creature extends Entite {
         this.brain = new Brain(this.perception);
         this.userWorld = userWorld;
         calculReward();
+        generateName();
     }
 
     public int getPosX() {
@@ -194,20 +198,29 @@ public class Creature extends Entite {
         this.userWorld = userWorld;
     }
 
-    public void update(){
-        //dépense journalière : mass * moveSpeed² + movePoint_use * mass * moveSpeed²/ (moveSpeed * 3 + 1)
-        // exploration / exploitation / learning rate
+    public void generateName(){
+        String n = "";
+        int nbSyllabe = (int) Math.floor(Math.random() * 2 + 2);
+        for(int i = 0; i < nbSyllabe; i++){
+            n += Utils.Syllabes[Utils.Syllabes.length - 1];
+        }
+        this.name = n;
+    }
 
-        double movePointUsed = 0.0;
+    public void update(){
+        this.movePointUsed = 0.0;
         do {
             if (Math.random() > ratioExploration){
                 exploitation();
-                movePoint --;
             } else {
                 exploration();
-                movePoint --;
             }
-        } while (movePointUsed <= movePoint);
+        } while (this.movePointUsed <= this.movePoint);
+        //Calcul dépense journalière : mass * moveSpeed² / 8 + movePoint_use * mass * moveSpeed²/ (moveSpeed * 3 + 1)
+        double metabolicEnergy = this.mass * Math.sqrt(this.moveSpeed) / 8;
+        double cyneticEnergy = this.movePointUsed * this.mass * Math.sqrt(this.moveSpeed) / (this.moveSpeed * 3 + 1);
+        int dailyExpense = (int) Math.round(metabolicEnergy + cyneticEnergy);
+        this.energy -= dailyExpense;
     }
 
     public void exploitation(){
@@ -334,6 +347,7 @@ public class Creature extends Entite {
     public void move(int moveX, int moveY){
         this.posX += moveX;
         this.posY += moveY;
+        this.movePointUsed += calculCostMP(userWorld.getWorld().getCell(this.posX, this.posY));
         calculReward();
     }
 
