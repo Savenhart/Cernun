@@ -89,6 +89,11 @@ public class SimulationController {
         creatures.removeAll(lstCreatures);
     }
 
+    @MessageMapping("/chat/{worldID}")
+    public void chat(@Payload String message, @PathParam("worldID") int worldID) throws Exception{
+        sendingOperations.convertAndSend("/chat/" + worldID, message);
+    }
+
     public void loop() throws InterruptedException {
         while(true){
             for (Creature c: creatures) {
@@ -98,5 +103,4 @@ public class SimulationController {
             Thread.sleep(1000);
         }
     }
-
 }
