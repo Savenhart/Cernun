@@ -59,7 +59,6 @@ export class WorldService {
       for (const f of res.content) {
         gridFood.add(new Food(f));
       }
-      console.log(gridFood);
       return gridFood;
     }));
   }

@@ -40,7 +40,7 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
   zoomMax = 10;
   zoomMin = 5;
   socket: any;
-  listCreature: Creature[];
+  listCreature: Creature[] = [];
 
   constructor(private route: ActivatedRoute,
               private worldService: WorldService) {
