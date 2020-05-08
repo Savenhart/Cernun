@@ -46,7 +46,6 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
               private worldService: WorldService) {
     this.route.queryParams.subscribe(params => {
       this.id = params.id;
-      console.log('id = ' + this.id);
       this.pos = new Location();
       this.gridList = new Set<Cell>();
       this.foodList = new Set<Food>();
@@ -56,6 +55,7 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
     // websocket
     const webSocket = new WebSocket(environment.wsUrl);
     this.socket = Stomp.over(webSocket);
+    this.socket.debug = null;
     const that = this;
     this.socket.connect({}, (frame) => {
       that.socket.subscribe('/errors', (message) => {
@@ -63,7 +63,8 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
       });
       that.socket.subscribe('/creature', (message) => {
         that.listCreature = [];
-        for (const c of message.body) {
+        const messageBody = JSON.parse(message.body);
+        for (const c of messageBody) {
           that.listCreature.push(new Creature(c));
         }
       });
@@ -72,7 +73,6 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
         userID:  currentUser.id,
         worldID: that.id
       });
-      console.log(messages);
       that.socket.send('/app/connect/', {}, messages);
     }, (error) => {
       alert('STOMP error' + error);
@@ -162,7 +162,7 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
           p.translate(-this.originX * this.size * 3 / 2,
             -(this.originY * p.sqrt(3) * this.size + this.originX % 2 * p.sqrt(3) * this.size / 2));
           for (const elem of this.listCreature) {
-            p.fill(0);
+            p.fill('red');
             const cX = elem.posX * 3 * this.size / 2;
             const cY = elem.posY * p.sqrt(3) * this.size + p.abs(elem.posX) % 2 * p.sqrt(3) * this.size / 2;
             p.translate(cX, cY);
