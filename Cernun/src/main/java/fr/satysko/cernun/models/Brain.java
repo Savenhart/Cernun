@@ -1,20 +1,48 @@
 package fr.satysko.cernun.models;
 
+import fr.satysko.cernun.utils.OpenSimplexNoise;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 
-import javax.persistence.Embeddable;
+import javax.persistence.*;
+import java.util.HashSet;
 
 @Embeddable
 public class Brain {
 
+    @Lob
+    private double[][] d_weight_i;
+    @Lob
+    private double[][] d_weight_ih;
+    @Lob
+    private double[][] d_weight_hh;
+    @Lob
+    private double[][] d_weight_ho;
+
+    @Lob
+    private double[][] d_bias_i;
+    @Lob
+    private double[][] d_bias_ih;
+    @Lob
+    private double[][] d_bias_hh;
+    @Lob
+    private double[][] d_bias_ho;
+
+    @Transient
     private Array2DRowRealMatrix weight_i;
+    @Transient
     private Array2DRowRealMatrix weight_ih;
+    @Transient
     private Array2DRowRealMatrix weight_hh;
+    @Transient
     private Array2DRowRealMatrix weight_ho;
 
+    @Transient
     private Array2DRowRealMatrix bias_i;
+    @Transient
     private Array2DRowRealMatrix bias_ih;
+    @Transient
     private Array2DRowRealMatrix bias_hh;
+    @Transient
     private Array2DRowRealMatrix bias_ho;
 
     /*
@@ -24,6 +52,10 @@ public class Brain {
     6 neurones sur la seconde couche cachés
     9 neurones en sorties
      */
+
+    public Brain(){
+
+    }
 
     public Brain(int perception) {
         int nbInput = 2;
@@ -106,6 +138,7 @@ public class Brain {
 
     Array2DRowRealMatrix feedForward(Array2DRowRealMatrix mat){
         if (mat.getRowDimension() != weight_i.getColumnDimension()) {
+            System.out.println(mat.getRowDimension() + " " + weight_i.getColumnDimension());
             return null;
         }
 
@@ -380,6 +413,34 @@ public class Brain {
 
     public void setBias_ho(Array2DRowRealMatrix bias_ho) {
         this.bias_ho = bias_ho;
+    }
+
+
+    @PostLoad
+    private void postLoad(){
+        weight_i = new Array2DRowRealMatrix(d_weight_i);
+        weight_ih = new Array2DRowRealMatrix(d_weight_ih);
+        weight_hh = new Array2DRowRealMatrix(d_weight_hh);
+        weight_ho = new Array2DRowRealMatrix(d_weight_ho);
+
+        bias_i = new Array2DRowRealMatrix(d_bias_i);
+        bias_ih = new Array2DRowRealMatrix(d_bias_ih);
+        bias_hh = new Array2DRowRealMatrix(d_bias_hh);
+        bias_ho = new Array2DRowRealMatrix(d_bias_ho);
+    }
+
+    @PrePersist
+    @PreUpdate
+    private void preSave(){
+        d_weight_i = weight_i.getData();
+        d_weight_ih = weight_ih.getData();
+        d_weight_hh = weight_hh.getData();
+        d_weight_ho= weight_ho.getData();
+
+        d_bias_i = bias_i.getData();
+        d_bias_ih = bias_ih.getData();
+        d_bias_hh = bias_hh.getData();
+        d_bias_ho = bias_ho.getData();
     }
 
     @Override

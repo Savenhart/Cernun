@@ -1,5 +1,6 @@
 package fr.satysko.cernun.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.satysko.cernun.utils.Utils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
@@ -39,6 +40,7 @@ public class Creature extends Entite {
     @Transient
     private double[] rewards;
     @Embedded
+    @JsonIgnore
     private Brain brain;
     @OneToOne
     private Picture picture;
@@ -202,7 +204,7 @@ public class Creature extends Entite {
         String n = "";
         int nbSyllabe = (int) Math.floor(Math.random() * 2 + 2);
         for(int i = 0; i < nbSyllabe; i++){
-            n += Utils.Syllabes[Utils.Syllabes.length - 1];
+            n += Utils.Syllabes[(int) Math.floor(Math.random() * Utils.Syllabes.length)];
         }
         this.name = n;
     }
@@ -357,8 +359,6 @@ public class Creature extends Entite {
 
     public void calculReward(){
         World world = userWorld.getWorld();
-        System.out.println(userWorld);
-        System.out.println(world);
 
         this.view = world.getView(this.posX,this.posY,this.perception);
         ArrayList<Double> rewardsTemp = new ArrayList<>();
@@ -393,15 +393,43 @@ public class Creature extends Entite {
         Location location = new Location();
         location.setPos(new Vector2d(this.posX,this.posY));
 
-        double[][] inputs = new double[1][rewards.length + 2];
+        double[][] inputs = new double[rewards.length + 2][1];
         // premier input : a quel point la créature a t'elle faim ?
         inputs[0][0] = this.energy > (this.energyMax * 0.7) ? 0 : - 10 * this.energy / ( 7 * this.energyMax) + 1 ;
         // deuxième inputs : présence de nourriture sur la case
-        inputs[0][1] = userWorld.getWorld().ifFoodExist(location) ? 1 : 0;
+        inputs[1][0] = userWorld.getWorld().ifFoodExist(location) ? 1 : 0;
         // reste des inputs : vue de la créature
         for (int i=0; i < this.rewards.length; i++){
-            inputs[0][i + 2] = this.rewards[i];
+            inputs[i + 2][0] = this.rewards[i];
         }
         return inputs;
+    }
+
+    @Override
+    public String toString() {
+        return "Creature{" +
+                "name='" + name + '\'' +
+                ", moveSpeed=" + moveSpeed +
+                ", movePoint=" + movePoint +
+                ", movePointUsed=" + movePointUsed +
+                ", energy=" + energy +
+                ", energyMax=" + energyMax +
+                ", perception=" + perception +
+                ", mass=" + mass +
+                ", diet=" + diet +
+                ", toleranceElevation=" + toleranceElevation +
+                ", toleranceHumidity=" + toleranceHumidity +
+                ", toleranceTemperature=" + toleranceTemperature +
+                ", posX=" + posX +
+                ", posY=" + posY +
+                ", ratioExploration=" + ratioExploration +
+                ", learningRate=" + learningRate +
+                ", userWorld=" + userWorld +
+                '}';
+    }
+
+    @PostLoad
+    private void postLoad(){
+        calculReward();
     }
 }

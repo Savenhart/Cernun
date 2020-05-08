@@ -1,18 +1,19 @@
 package fr.satysko.cernun.models;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"world_id", "user_id"}))
 public class UserWorld extends Entite {
     @ManyToOne
     private World world;
     @ManyToOne
     private User user;
     @OneToMany(mappedBy = "userWorld", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonIgnore
     private Set<Creature> creatures;
 
     public World getWorld() {
@@ -39,4 +40,11 @@ public class UserWorld extends Entite {
         this.creatures = creatures;
     }
 
+    @Override
+    public String toString() {
+        return "UserWorld{" +
+                "world=" + world +
+                ", user=" + user +
+                '}';
+    }
 }

@@ -46,7 +46,7 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
               private worldService: WorldService) {
     this.route.queryParams.subscribe(params => {
       this.id = params.id;
-      console.log("id = " + this.id);
+      console.log('id = ' + this.id);
       this.pos = new Location();
       this.gridList = new Set<Cell>();
       this.foodList = new Set<Food>();
@@ -162,7 +162,7 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
           p.translate(-this.originX * this.size * 3 / 2,
             -(this.originY * p.sqrt(3) * this.size + this.originX % 2 * p.sqrt(3) * this.size / 2));
           for (const elem of this.listCreature) {
-            p.fill('red');
+            p.fill(0);
             const cX = elem.posX * 3 * this.size / 2;
             const cY = elem.posY * p.sqrt(3) * this.size + p.abs(elem.posX) % 2 * p.sqrt(3) * this.size / 2;
             p.translate(cX, cY);

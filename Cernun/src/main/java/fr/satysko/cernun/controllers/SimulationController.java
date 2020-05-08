@@ -7,6 +7,7 @@ import fr.satysko.cernun.models.UserWorld;
 import fr.satysko.cernun.models.World;
 import fr.satysko.cernun.repositories.CreatureRepository;
 import fr.satysko.cernun.repositories.UserRepository;
+import fr.satysko.cernun.repositories.UserWorldRepository;
 import fr.satysko.cernun.repositories.WorldRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -29,6 +30,8 @@ public class SimulationController {
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    private UserWorldRepository userWorldRepository;
+    @Autowired
     private SimpMessageSendingOperations sendingOperations;
 
     private ArrayList<Creature> creatures = new ArrayList<>();
@@ -41,13 +44,19 @@ public class SimulationController {
         User user = userRepository.findById(userID).orElse(null);
         World world = worldRepository.findById(worldID).orElse(null);
         users.add(user);
-        UserWorld userWorld = new UserWorld();
-        userWorld.setWorld(world);
-        userWorld.setUser(user);
+        UserWorld userWorld = userWorldRepository.findByWorldAndUser(world.getId(), user.getId());
+        if(userWorld == null){
+            userWorld = new UserWorld();
+            userWorld.setWorld(world);
+            userWorld.setUser(user);
+            userWorld = userWorldRepository.save(userWorld);
+        }
         List<Creature> lstCreatures = creatureRepository.findAllByWorldAndUser(world.getId(), user.getId());
         if (creatures == null || creatures.size() == 0){
-            int cX = (int) Math.floor(Math.random() * 25);
-            int cY = (int) Math.floor(Math.random() * 25);
+//            int cX = (int) Math.floor(Math.random() * 25);
+//            int cY = (int) Math.floor(Math.random() * 25);
+            int cX = 0;
+            int cY = 0;
             lstCreatures.add(new Creature(
                     cX,
                     cY,
@@ -83,10 +92,7 @@ public class SimulationController {
                     cY + 1,
                     userWorld
             ));
-            System.out.println("x = " + cX );
-            System.out.println("y = " + cY );
         }
-
         creatures.addAll(lstCreatures);
     }
 
@@ -106,11 +112,12 @@ public class SimulationController {
 
     public void loop() throws InterruptedException {
         while(true){
+            sendingOperations.convertAndSend("/creature", creatures);
             for (Creature c: creatures) {
                 c.update();
+                creatureRepository.save(c);
             }
-            sendingOperations.convertAndSend("/creature", creatures);
-            Thread.sleep(1000);
+            Thread.sleep(10000);
         }
     }
 }

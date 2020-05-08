@@ -37,6 +37,8 @@ public class Location {
 
     public void setPos(Vector2d pos) {
         this.pos = pos;
+        this.posX = (int) pos.getX();
+        this.posY = (int) pos.getY();
     }
 
     @PostLoad
@@ -55,12 +57,22 @@ public class Location {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Location that = (Location) o;
-        return pos.equals(that.pos);
+        Location location = (Location) o;
+        return posX == location.posX &&
+                posY == location.posY;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pos);
+        return Objects.hash(posX, posY);
+    }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "posX=" + posX +
+                ", posY=" + posY +
+                ", pos=" + pos +
+                '}';
     }
 }

@@ -94,7 +94,11 @@ public class World extends Entite {
     public Cell getCell(int x, int y){
         Location k = new Location();
         k.setPos(new Vector2d(x, y));
-        return cells.get(k);
+        Cell c = cells.get(k);
+        if (c == null){
+            c = genCell(x, y);
+        }
+        return c;
     }
 
     public Cell genCell(int x, int y) {
@@ -154,19 +158,19 @@ public class World extends Entite {
         int nbInput = 1;
         switch (perception){
             case 1:
-                nbInput = 7;
+                nbInput = 6;
                 break;
             case 2:
-                nbInput = 19;
+                nbInput = 18;
                 break;
             case 3:
-                nbInput = 37;
+                nbInput = 36;
                 break;
             case 4:
-                nbInput = 61;
+                nbInput = 60;
                 break;
             case 5:
-                nbInput = 91;
+                nbInput = 90;
                 break;
         }
         Cell[] res = new Cell[nbInput];
