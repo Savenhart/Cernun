@@ -6,6 +6,7 @@ import fr.satysko.cernun.models.User;
 import fr.satysko.cernun.models.UserWorld;
 import fr.satysko.cernun.models.World;
 import fr.satysko.cernun.repositories.CreatureRepository;
+import fr.satysko.cernun.repositories.UserRepository;
 import fr.satysko.cernun.repositories.WorldRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class SimulationController {
@@ -25,20 +27,24 @@ public class SimulationController {
     @Autowired
     private WorldRepository worldRepository;
     @Autowired
+    private UserRepository userRepository;
+    @Autowired
     private SimpMessageSendingOperations sendingOperations;
 
     private ArrayList<Creature> creatures = new ArrayList<>();
     private ArrayList<User> users = new ArrayList<>();
 
-    @MessageMapping("/connect/{worldID}")
-    public void connect(@Payload String message, @PathParam("worldID") int worldID) throws Exception{
-        User user = new Gson().fromJson(message, User.class);
+    @MessageMapping("/connect/")
+    public void connect(@Payload String message) throws Exception{
+        int worldID = Integer.parseInt(new Gson().fromJson(message, Map.class).get("worldID").toString());
+        int userID = ((Double) new Gson().fromJson(message, Map.class).get("userID")).intValue();
+        User user = userRepository.findById(userID).orElse(null);
         World world = worldRepository.findById(worldID).orElse(null);
         users.add(user);
         UserWorld userWorld = new UserWorld();
         userWorld.setWorld(world);
         userWorld.setUser(user);
-        List<Creature> lstCreatures = creatureRepository.findAllByWorldAndUser(worldID, user.getId());
+        List<Creature> lstCreatures = creatureRepository.findAllByWorldAndUser(world.getId(), user.getId());
         if (creatures == null || creatures.size() == 0){
             int cX = (int) Math.floor(Math.random() * 25);
             int cY = (int) Math.floor(Math.random() * 25);
@@ -77,13 +83,17 @@ public class SimulationController {
                     cY + 1,
                     userWorld
             ));
+            System.out.println("x = " + cX );
+            System.out.println("y = " + cY );
         }
+
         creatures.addAll(lstCreatures);
     }
 
     @MessageMapping("/disconnect/{worldID}")
     public void deconnect(@Payload String message, @PathParam("worldID") int worldID) throws Exception{
-        User user = new Gson().fromJson(message, User.class);
+        User user = new User();
+        user.setId(Integer.valueOf(message));
         users.remove(user);
         List<Creature> lstCreatures = creatureRepository.findAllByWorldAndUser(worldID, user.getId());
         creatures.removeAll(lstCreatures);

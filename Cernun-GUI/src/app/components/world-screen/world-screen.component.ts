@@ -46,6 +46,7 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
               private worldService: WorldService) {
     this.route.queryParams.subscribe(params => {
       this.id = params.id;
+      console.log("id = " + this.id);
       this.pos = new Location();
       this.gridList = new Set<Cell>();
       this.foodList = new Set<Food>();
@@ -57,17 +58,22 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
     this.socket = Stomp.over(webSocket);
     const that = this;
     this.socket.connect({}, (frame) => {
-      that.socket.pipe(takeUntil(that.onDestroy)).subscribe('/errors', (message) => {
+      that.socket.subscribe('/errors', (message) => {
         alert('Error' + message.body);
       });
-      that.socket.pipe(takeUntil(that.onDestroy)).subscribe('/creature', (message) => {
+      that.socket.subscribe('/creature', (message) => {
         that.listCreature = [];
         for (const c of message.body) {
           that.listCreature.push(new Creature(c));
         }
       });
-      const currentUser = localStorage.getItem('currentUser');
-      that.socket.send('/app/connect/' + that.id, {}, currentUser);
+      const currentUser = JSON.parse(localStorage.getItem('currentUser')).content;
+      const messages = JSON.stringify({
+        userID:  currentUser.id,
+        worldID: that.id
+      });
+      console.log(messages);
+      that.socket.send('/app/connect/', {}, messages);
     }, (error) => {
       alert('STOMP error' + error);
     });
@@ -75,8 +81,12 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.onDestroy.next();
-    const currentUser = localStorage.getItem('currentUser');
-    this.socket.send('/app/disconnect/' + this.id, {}, currentUser);
+    const currentUser = JSON.parse(localStorage.getItem('currentUser')).content;
+    const message = JSON.stringify({
+      userID:  currentUser.id,
+      worldID: this.id
+    });
+    this.socket.send('/app/disconnect/', {}, message);
     if (this.socket != null) {
       this.socket.ws.close();
     }

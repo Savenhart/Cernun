@@ -357,6 +357,9 @@ public class Creature extends Entite {
 
     public void calculReward(){
         World world = userWorld.getWorld();
+        System.out.println(userWorld);
+        System.out.println(world);
+
         this.view = world.getView(this.posX,this.posY,this.perception);
         ArrayList<Double> rewardsTemp = new ArrayList<>();
         for (int i = 0; i < this.view.length; i++) {
