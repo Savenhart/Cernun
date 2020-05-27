@@ -3,7 +3,7 @@
       <div id='world'></div>
       <div>
         <ul>
-          <li *ngFor="let c of listCreature" (click)="onClickCoord(c.posX, c.posY)">{{ c.name}} {{c.posX}} {{c.posY}}</li>
+          <li class="nav-link" *ngFor="let c of listCreature" (click)="onClickCoord(c.posX, c.posY)">{{ c.name}} {{c.posX}} {{c.posY}}</li>
         </ul>
       </div>
   </div>
