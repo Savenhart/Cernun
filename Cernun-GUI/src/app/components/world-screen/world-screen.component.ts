@@ -67,6 +67,7 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
         for (const c of messageBody) {
           that.listCreature.push(new Creature(c));
         }
+        console.log(that.listCreature.length);
       });
       const currentUser = JSON.parse(localStorage.getItem('currentUser')).content;
       const messages = JSON.stringify({
@@ -244,6 +245,12 @@ export class WorldScreenComponent implements OnInit, OnDestroy {
     this.foodList.clear();
     return this.worldService.getWorldFood(this.id, this.pos, this.scale)
       .pipe(tap(data => { this.foodList = data; }));
+  }
+
+  onClickCoord(x, y): void {
+    console.log(x);
+    this.originX = x;
+    this.originY = y;
   }
 
 }
