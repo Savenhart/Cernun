@@ -17,9 +17,16 @@ public class Biome {
 	@Transient
 	int rank;
 
+	double elevation;
+	double humidity;
+	double temperature;
+
 	public Biome(){}
 
 	public Biome (double niv, double hum, double tem) {
+		elevation = niv;
+		humidity = hum;
+		temperature = tem;
 		defineBiome(niv, hum, tem);
 		defineRank();
 	}
@@ -46,6 +53,30 @@ public class Biome {
 
 	public void setRank(int rank) {
 		this.rank = rank;
+	}
+
+	public double getElevation() {
+		return elevation;
+	}
+
+	public void setElevation(double elevation) {
+		this.elevation = elevation;
+	}
+
+	public double getHumidity() {
+		return humidity;
+	}
+
+	public void setHumidity(double humidity) {
+		this.humidity = humidity;
+	}
+
+	public double getTemperature() {
+		return temperature;
+	}
+
+	public void setTemperature(double temperature) {
+		this.temperature = temperature;
 	}
 
 	public void defineBiome(double niv, double hum, double tem){

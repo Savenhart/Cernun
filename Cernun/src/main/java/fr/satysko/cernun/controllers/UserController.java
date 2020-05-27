@@ -31,6 +31,9 @@ public class UserController {
             if(users == null || users.size() == 0){
                 response = new RestResponse<>(new UserException("Aucun utilisateur trouvés"), 204);
             }else {
+                for (User u : users) {
+                    u.setPassword("");
+                }
                 response = new RestResponse<>(users);
             }
         }catch (Exception e){
@@ -48,6 +51,9 @@ public class UserController {
             if(users == null || users.size() == 0){
                 response = new RestResponse<>(new UserException("Aucun utilisateur trouvé pour le monde n°" + id), 204);
             }else {
+                for (User u : users) {
+                    u.setPassword("");
+                }
                 response = new RestResponse<>(users);
             }
         }catch (Exception e){
@@ -65,6 +71,7 @@ public class UserController {
             if(user == null){
                 response = new RestResponse<User>(new UserException("L'utilisateur n°" + id + " n'existe pas"), 204);
             }else {
+                user.setPassword("");
                 response = new RestResponse<>(user);
             }
         }catch (Exception e){
@@ -82,6 +89,7 @@ public class UserController {
             if(user == null){
                 response = new RestResponse<User>(new UserException("Association UserName - mot de passe incorrect"), 204);
             }else {
+                user.setPassword("");
                 response = new RestResponse<>(user);
             }
         }catch (Exception e){
@@ -120,6 +128,7 @@ public class UserController {
                 if (user == null) {
                     response = new RestResponse<>(new UserException("L'utilisateur n'a pas pu être créé"), 204);
                 } else {
+                    user.setPassword("");
                     response = new RestResponse<>(user);
                 }
             }
@@ -144,6 +153,7 @@ public class UserController {
                 if (user == null) {
                     response = new RestResponse<User>(new UserException("L'utilisateur n'existe pas"), 204);
                 } else {
+                    user.setPassword("");
                     response = new RestResponse<>(user);
                 }
             }
